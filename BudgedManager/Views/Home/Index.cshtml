@@ -1,8 +1,16 @@
-﻿@{
+﻿@using Azure.Core
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <a href="http://localhost:5062/Expense/Create/">Create a new Expense</a>
+    <a href="http://localhost:5062/Expense/">Show Expenses</a>
+    <a href="http://localhost:5062/Expense/Calculator/">Expense Summary</a>
+    <a href="http://localhost:5062/Category/">Manage Categories</a>
+    <a href="http://localhost:5062/Expense/History">History and Edit Expenses</a>
+    <a href="http://localhost:5062/Report/">Reports</a>
+    @* todo: CREATE A SPECIAL CLASS AND FUNCTIONALITY *@
+    <a href="http://localhost:5062/Category/...">Notifications and Budged</a>
 </div>

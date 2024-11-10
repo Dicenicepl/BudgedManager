@@ -48,6 +48,7 @@ namespace BudgedManager.Controllers
         {
             return View();
         }
+        
 
         // POST: Category/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
