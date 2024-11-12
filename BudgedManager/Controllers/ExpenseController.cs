@@ -22,7 +22,10 @@ namespace BudgedManager.Controllers
         // GET: Expense
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Expenses.ToListAsync());
+            var expenses = await _context.Expenses.Include(
+                e => e.Category)
+                .ToListAsync();
+            return View(expenses);
         }
 
         // GET: Expense/Details/5
@@ -46,18 +49,7 @@ namespace BudgedManager.Controllers
         // GET: Expense/Create
         public IActionResult Create()
         {
-            return View();
-        }
-        // todo: configure functionality for below end-points
-        //GET: Expense/Calculator
-        public IActionResult Calculate()
-        {
-            return View();
-        }
-        
-        //GET: Expense/History
-        public IActionResult History()
-        {
+            ViewData["Category"] = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
 
@@ -66,7 +58,7 @@ namespace BudgedManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Amount,Date")] Expense expense)
+        public async Task<IActionResult> Create([Bind("Id,Amount,Category,Date,Comment")] Expense expense)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +90,7 @@ namespace BudgedManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Amount,Date")] Expense expense)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Amount,Category,Date,Comment")] Expense expense)
         {
             if (id != expense.Id)
             {
