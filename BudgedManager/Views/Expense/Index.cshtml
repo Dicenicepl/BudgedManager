@@ -13,18 +13,17 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Amount)
+                <a asp-action="Index" asp-route-orderBy="Amount">@Html.DisplayNameFor(model => model.Amount)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                <a asp-action="Index" asp-route-orderBy="Category">@Html.DisplayNameFor(model => model.Category)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                <a asp-action="Index" asp-route-orderBy="Date">@Html.DisplayNameFor(model => model.Date)</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Comment)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>

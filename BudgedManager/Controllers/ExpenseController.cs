@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -20,13 +21,29 @@ namespace BudgedManager.Controllers
         }
 
         // GET: Expense
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string orderBy)
         {
             var expenses = await _context.Expenses.Include(
-                e => e.Category)
+                    e => e.Category)
                 .ToListAsync();
+            
+            switch (orderBy)
+            {
+                case "Amount":
+                    expenses = new List<Expense>(expenses.OrderBy(e => e.Amount));
+                    break;
+                case "Category":
+                    expenses = new List<Expense>(expenses.OrderBy(e => e.Category.Name));
+                    break;
+                case "Date":
+                    expenses = new List<Expense>(expenses.OrderBy(e => e.Date));
+                    break;
+                default:
+                    break;
+            }
             return View(expenses);
         }
+        
 
         // GET: Expense/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -58,13 +75,18 @@ namespace BudgedManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Amount,Category,Date,Comment")] Expense expense)
+        public async Task<IActionResult> Create([Bind("Id,Amount,CategoryId,Date,Comment")] Expense expense)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(expense);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+            }
+
+            if (expense.Amount <= 0.00)
+            {
+                return BadRequest();
             }
             return View(expense);
         }

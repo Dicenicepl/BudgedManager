@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                @Html.DropDownListFor(m => m.Category, (SelectList)ViewData["Category"], "Wybierz kategorię", new { @class = "form-control" })
+                @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewData["Category"], "Wybierz kategorię", new { @class = "form-control" })
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
             <div class="form-group">
