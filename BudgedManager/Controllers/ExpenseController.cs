@@ -21,12 +21,15 @@ namespace BudgedManager.Controllers
         }
 
         // GET: Expense
-        public async Task<IActionResult> Index(string orderBy)
+        public async Task<IActionResult> Index(string? orderBy, string? searchString)
         {
             var expenses = await _context.Expenses.Include(
                     e => e.Category)
                 .ToListAsync();
-            
+            if (searchString != null)
+            {
+                expenses = new List<Expense>(expenses.Where(s => s.Category.Name.Equals(searchString)));
+            }
             switch (orderBy)
             {
                 case "Amount":
@@ -44,7 +47,6 @@ namespace BudgedManager.Controllers
             return View(expenses);
         }
         
-
         // GET: Expense/Details/5
         public async Task<IActionResult> Details(int? id)
         {

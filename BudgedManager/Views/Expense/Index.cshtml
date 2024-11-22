@@ -9,6 +9,13 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+@* <a asp-action="Index" asp-route-searchString="Test">Test</a> *@
+<form asp-action="Index">
+    <label for="searchString">
+        <input type="text" name="searchString">
+    </label>
+    <input type="submit">
+</form>
 <table class="table">
     <thead>
         <tr>
