@@ -41,8 +41,6 @@ namespace BudgedManager.Controllers
                 case "Date":
                     expenses = new List<Expense>(expenses.OrderBy(e => e.Date));
                     break;
-                default:
-                    break;
             }
             return View(expenses);
         }
