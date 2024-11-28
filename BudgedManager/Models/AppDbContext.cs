@@ -1,4 +1,4 @@
-﻿using BudgedManager.Models.Entity;
+using BudgedManager.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace BudgedManager.Models;
@@ -11,4 +11,6 @@ public class AppDbContext: DbContext
     }
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<Category> Categories { get; set; }
+
+public DbSet<BudgedManager.Models.Entity.Limit> Limit { get; set; } = default!;
 }

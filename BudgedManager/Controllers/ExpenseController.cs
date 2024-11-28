@@ -21,14 +21,23 @@ namespace BudgedManager.Controllers
         }
 
         // GET: Expense
-        public async Task<IActionResult> Index(string? orderBy, string? searchString)
+        public async Task<IActionResult> Index(string? orderBy, string? date, string? category, string? amount)
         {
             var expenses = await _context.Expenses.Include(
                     e => e.Category)
                 .ToListAsync();
-            if (searchString != null)
+            //todo try to optimize that process 
+            if (date != null)
             {
-                expenses = new List<Expense>(expenses.Where(s => s.Category.Name.Equals(searchString)));
+                expenses = new List<Expense>(expenses.Where(s => s.Date.Equals(date)));
+            }
+            if (category != null)
+            {
+                expenses = new List<Expense>(expenses.Where(s => s.Category.Name.Equals(category)));
+            }
+            if (amount != null)
+            {
+                expenses = new List<Expense>(expenses.Where(s => s.Amount.Equals(amount)));
             }
             switch (orderBy)
             {
