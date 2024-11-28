@@ -29,7 +29,10 @@ namespace BudgedManager.Controllers
             //todo try to optimize that process 
             if (date != null)
             {
-                expenses = new List<Expense>(expenses.Where(s => s.Date.Equals(date)));
+                /*
+                 * OPTIONAL: Date.ToString("d") creates example: "11/12/2024"
+                 */
+                expenses = new List<Expense>(expenses.Where(e => e.Date.Date == DateTime.Parse(date)));
             }
             if (category != null)
             {
@@ -37,7 +40,7 @@ namespace BudgedManager.Controllers
             }
             if (amount != null)
             {
-                expenses = new List<Expense>(expenses.Where(s => s.Amount.Equals(amount)));
+                expenses = new List<Expense>(expenses.Where(s => s.Amount.ToString() == amount));
             }
             switch (orderBy)
             {
