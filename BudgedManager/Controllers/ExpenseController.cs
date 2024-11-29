@@ -57,6 +57,34 @@ namespace BudgedManager.Controllers
             return View(expenses);
         }
         
+        // GET: Expense/Summary/
+        public async Task<IActionResult> Summary()
+        {
+            // var expenses = "SELECT * FROM Expense ORDER BY Amount";
+            var expenses = await _context.Expenses.ToListAsync();
+            expenses = new List<Expense>(expenses.OrderBy(e => e.Amount));
+
+            var groups 
+                = expenses.GroupBy(e => e.CategoryId).Select(
+                    group => new
+                    {
+                        CategoryId = group.Key,
+                        Amount = group.Sum(e => e.Amount)
+                    }).ToList();
+            foreach (var group in groups)
+            {
+                Console.WriteLine(group.CategoryId + " : " + group.Amount);
+            }
+
+            ViewData["Sum"] = expenses.Sum(e => e.Amount);
+            
+            ViewData["Highest"] = expenses[expenses.Count() - 1].Amount;
+
+            
+            
+            return View();
+        }
+        
         // GET: Expense/Details/5
         public async Task<IActionResult> Details(int? id)
         {
