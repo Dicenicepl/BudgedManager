@@ -1,8 +1,62 @@
-﻿@model dynamic
+﻿@{
+    ViewData["Title"] = "Summary of Expenses";
 
-@{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+    // Dane przekazywane przez ViewData
+    var totalExpenses = ViewData["Sum"] as double? ?? 0;
+    var highestExpense = ViewData["Highest"] as double? ?? 0;
+    var averageDays = ViewData["AverageDays"] as double? ?? 0;
+    var averageWeeks = ViewData["AverageWeeks"] as double? ?? 0;
+    var averageMonths = ViewData["AverageMonths"] as double? ?? 0;
+    var categoryExpenses = ViewData["categoryExpenses"] as List<dynamic> ?? new List<dynamic>();
 }
 
-<h2>@ViewData["Highest"]</h2>
+<h1>Summary of Expenses</h1>
+
+<!-- Całkowite wydatki -->
+<div>
+    <h2>Total Expenses</h2>
+    <p><strong>@totalExpenses:C</strong></p>
+</div>
+
+<!-- Największy wydatek -->
+<div>
+    <h2>Highest Expense (Category)</h2>
+    <p><strong>@highestExpense:C</strong></p>
+</div>
+
+<!-- Średnie wydatki -->
+<div>
+    <h2>Average Expenses</h2>
+    <ul>
+        <li><strong>Daily:</strong> @averageDays</li>
+        <li><strong>Weekly:</strong> @averageWeeks</li>
+        <li><strong>Monthly:</strong> @averageMonths</li>
+    </ul>
+</div>
+
+<!-- Wydatki według kategorii -->
+<div>
+    <h2>Expenses by Category</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Category ID</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in categoryExpenses)
+        {
+            <tr>
+                <td>@item.CategoryId</td>
+                <td>@item.Amount:C</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<!-- Powrót do menu -->
+<div>
+    <a class="btn btn-primary" href="@Url.Action("Index", "Home")">Return to Main Menu</a>
+</div>

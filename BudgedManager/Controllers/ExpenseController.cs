@@ -20,7 +20,9 @@ namespace BudgedManager.Controllers
             _context = context;
         }
 
+
         // GET: Expense
+
         public async Task<IActionResult> Index(string? orderBy, string? date, string? category, string? amount)
         {
             var expenses = await _context.Expenses.Include(
@@ -56,35 +58,41 @@ namespace BudgedManager.Controllers
             }
             return View(expenses);
         }
-        
-        // GET: Expense/Summary/
-        public async Task<IActionResult> Summary()
-        {
-            // var expenses = "SELECT * FROM Expense ORDER BY Amount";
-            var expenses = await _context.Expenses.ToListAsync();
-            expenses = new List<Expense>(expenses.OrderBy(e => e.Amount));
 
-            var groups 
-                = expenses.GroupBy(e => e.CategoryId).Select(
+
+        // GET: Expense/Summary/
+        public async Task<IActionResult> Summary(DateTime? startDate, DateTime? endDate)
+        {
+            
+            
+            var categoryExpenses 
+                = _context.Expenses.GroupBy(e => e.CategoryId).Select(
                     group => new
                     {
                         CategoryId = group.Key,
+                        CategoryName = group.First().Category.Name,
                         Amount = group.Sum(e => e.Amount)
                     }).ToList();
-            foreach (var group in groups)
-            {
-                Console.WriteLine(group.CategoryId + " : " + group.Amount);
-            }
 
-            ViewData["Sum"] = expenses.Sum(e => e.Amount);
+            var countRecords = await _context.Expenses.Select(e => e.Date.Date).Distinct().CountAsync();
             
-            ViewData["Highest"] = expenses[expenses.Count() - 1].Amount;
+            var totalExpenses = await _context.Expenses.SumAsync(e => e.Amount);
 
-            
+            var averageDays = totalExpenses / countRecords;
+            var averageWeeks = totalExpenses / (countRecords / 7.0);
+            var averageMonths = totalExpenses / (countRecords / 30.0);
+
+
+            ViewData["Sum"] = totalExpenses;
+            ViewData["Highest"] = categoryExpenses.Max(e => e.Amount);
+            ViewData["categoryExpenses"] = categoryExpenses;
+            ViewData["AverageDays"] = averageDays;
+            ViewData["AverageWeeks"] = averageWeeks;
+            ViewData["AverageMonths"] = averageMonths;
             
             return View();
         }
-        
+
         // GET: Expense/Details/5
         public async Task<IActionResult> Details(int? id)
         {
