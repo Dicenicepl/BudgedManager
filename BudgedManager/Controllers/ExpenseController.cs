@@ -65,30 +65,29 @@ namespace BudgedManager.Controllers
         {
             
             
-            var categoryExpenses 
-                = _context.Expenses.GroupBy(e => e.CategoryId).Select(
-                    group => new
-                    {
-                        CategoryId = group.Key,
-                        CategoryName = group.First().Category.Name,
-                        Amount = group.Sum(e => e.Amount)
-                    }).ToList();
+            var categoryExpenses = _context.Expenses
+                .GroupBy(e => e.CategoryId)
+                .Select(group => new SummaryDto
+                {
+                    CategoryId = group.Key,
+                    CategoryName = group.First().Category.Name,
+                    Score = (float)Math.Round(group.Sum(e => e.Amount))
+                }).ToList();
 
             var countRecords = await _context.Expenses.Select(e => e.Date.Date).Distinct().CountAsync();
             
             var totalExpenses = await _context.Expenses.SumAsync(e => e.Amount);
 
             var averageDays = totalExpenses / countRecords;
-            var averageWeeks = totalExpenses / (countRecords / 7.0);
-            var averageMonths = totalExpenses / (countRecords / 30.0);
-
-
-            ViewData["Sum"] = totalExpenses;
-            ViewData["Highest"] = categoryExpenses.Max(e => e.Amount);
+            // var averageWeeks = totalExpenses / (countRecords / 7);
+            // var averageMonths = totalExpenses / (countRecords / 30);
+            
+            ViewData["Sum"] = (float)Math.Round(totalExpenses,2) ;
+            ViewData["Highest"] = (float)Math.Round(categoryExpenses.Max(e => e.Score),2) ;
             ViewData["categoryExpenses"] = categoryExpenses;
-            ViewData["AverageDays"] = averageDays;
-            ViewData["AverageWeeks"] = averageWeeks;
-            ViewData["AverageMonths"] = averageMonths;
+            ViewData["AverageDays"] = (float)Math.Round(averageDays,2) ;
+            // ViewData["AverageWeeks"] = (float)Math.Round(averageWeeks,2) ;
+            // ViewData["AverageMonths"] = (float)Math.Round(averageMonths,2) ;
             
             return View();
         }
@@ -125,17 +124,19 @@ namespace BudgedManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Amount,CategoryId,Date,Comment")] Expense expense)
         {
+            if (expense.CategoryId.Equals(null))
+            {
+                return BadRequest();
+            }
+            
             if (ModelState.IsValid)
             {
+                expense.Amount = decimal.Parse(String.Format("{0:0.00}", expense.Amount));
                 _context.Add(expense);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            if (expense.Amount <= 0.00)
-            {
-                return BadRequest();
-            }
+            
             return View(expense);
         }
 
@@ -146,7 +147,8 @@ namespace BudgedManager.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["Category"] = new SelectList(_context.Categories, "Id", "Name");
+            
             var expense = await _context.Expenses.FindAsync(id);
             if (expense == null)
             {
