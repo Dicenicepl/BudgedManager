@@ -22,6 +22,18 @@ namespace BudgedManager.Controllers
         // GET: Category
         public async Task<IActionResult> Index()
         {
+            var groupBy = _context.Expenses
+                .GroupBy(exp => exp.CategoryId)
+                .Select(group =>
+                new
+                {
+                    CategoryId = group.Key,
+                    Count = group.Count()
+                })
+                .OrderByDescending(x => x.Count)
+                .FirstOrDefault();
+            ViewData["CategoryId"] = groupBy.CategoryId;
+            ViewData["Count"] = groupBy.Count;
             return View(await _context.Categories.ToListAsync());
         }
 
