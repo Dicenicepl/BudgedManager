@@ -27,12 +27,12 @@ namespace BudgedManager.Controllers
                 .Select(group =>
                 new
                 {
-                    CategoryId = group.Key,
+                    CategoryName = _context.Categories.FirstOrDefault(category => category.Id == group.Key).Name,
                     Count = group.Count()
                 })
                 .OrderByDescending(x => x.Count)
                 .FirstOrDefault();
-            ViewData["CategoryId"] = groupBy.CategoryId;
+            ViewData["CategoryName"] = groupBy.CategoryName;
             ViewData["Count"] = groupBy.Count;
             return View(await _context.Categories.ToListAsync());
         }

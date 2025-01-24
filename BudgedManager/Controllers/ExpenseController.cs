@@ -20,9 +20,7 @@ namespace BudgedManager.Controllers
             _context = context;
         }
 
-
         // GET: Expense
-
         public async Task<IActionResult> Index(string? orderBy, string? date, string? category, string? amount)
         {
             var expenses = await _context.Expenses.Include(

@@ -10,8 +10,7 @@
     <a asp-action="Create">Create New</a>
 </p>
 <p>
-    @ViewData["CategoryId"]
-    @ViewData["Count"]
+    Most used category: @ViewData["CategoryName"], count: @ViewData["Count"]
 </p>
 <table class="table">
     <thead>
