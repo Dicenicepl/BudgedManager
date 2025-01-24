@@ -207,6 +207,13 @@ namespace BudgedManager.Controllers
 
             return View(expense);
         }
+        // GET: Expense/History
+        public async Task<IActionResult> History()
+        {
+            var expense = await _context.Expenses.ToListAsync();
+            
+            return View(expense);
+        }
 
         // POST: Expense/Delete/5
         [HttpPost, ActionName("Delete")]
