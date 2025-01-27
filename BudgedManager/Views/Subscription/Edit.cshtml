@@ -1,0 +1,51 @@
+@model BudgedManager.Models.Entity.Subscription
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Subscription</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id" />
+            <div class="form-group">
+                <label asp-for="subscriptionName" class="control-label"></label>
+                <input asp-for="subscriptionName" class="form-control" />
+                <span asp-validation-for="subscriptionName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="subscriptionDescription" class="control-label"></label>
+                <input asp-for="subscriptionDescription" class="form-control" />
+                <span asp-validation-for="subscriptionDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="subscriptionStartDate" class="control-label"></label>
+                <input asp-for="subscriptionStartDate" class="form-control" />
+                <span asp-validation-for="subscriptionStartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="subscriptionPaymentPeriod" class="control-label"></label>
+                <input asp-for="subscriptionPaymentPeriod" class="form-control" />
+                <span asp-validation-for="subscriptionPaymentPeriod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="subsriptionPrice" class="control-label"></label>
+                <input asp-for="subsriptionPrice" class="form-control" />
+                <span asp-validation-for="subsriptionPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

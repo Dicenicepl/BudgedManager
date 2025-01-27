@@ -1,0 +1,59 @@
+@model IEnumerable<BudgedManager.Models.Entity.Subscription>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.subscriptionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.subscriptionDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.subscriptionStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.subscriptionPaymentPeriod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.subsriptionPrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.subscriptionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.subscriptionDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.subscriptionStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.subscriptionPaymentPeriod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.subsriptionPrice)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
