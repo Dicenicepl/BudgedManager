@@ -6,6 +6,6 @@ public class Subscription
     public string subscriptionName { get; set; }
     public string subscriptionDescription { get; set; }
     public DateTime subscriptionStartDate { get; set; }
-    public DateTime subscriptionPaymentPeriod { get; set; }
-    public decimal subsriptionPrice { get; set; }
+    public int subscriptionPaymentPeriod { get; set; }
+    public decimal subscriptionPrice { get; set; }
 }

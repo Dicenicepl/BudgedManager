@@ -54,7 +54,7 @@ namespace BudgedManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,subscriptionName,subscriptionDescription,subscriptionStartDate,subscriptionPaymentPeriod,subsriptionPrice")] Subscription subscription)
+        public async Task<IActionResult> Create([Bind("id,subscriptionName,subscriptionDescription,subscriptionStartDate,subscriptionPaymentPeriod,subscriptionPrice")] Subscription subscription)
         {
             if (ModelState.IsValid)
             {
