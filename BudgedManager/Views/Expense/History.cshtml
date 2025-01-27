@@ -1,8 +1,25 @@
-﻿@model IEnumerable<BudgedManager.Models.Entity.Expense>
+﻿@using System.Collections
+@using BudgedManager.Models.Entity
+@using Microsoft.Build.Construction
+@model IEnumerable<BudgedManager.Models.Entity.Expense>
 
 @{
-ViewData["Title"] = "History";
+    ViewData["Title"] = "History";
+    var expenses = ViewData["expenses"] as List<HistoryDto>;
 }
 
 <h1>Index</h1>
 
+
+<table>
+    
+    @foreach (var expense in expenses)
+    {
+        <tr>
+            <td>Category: @expense.Category</td>
+            <td>Amount: @expense.Amount</td>
+            <td>Date: @expense.Date</td>
+            <td>Comment: @expense.Comment</td>
+        </tr>
+    }
+</table>

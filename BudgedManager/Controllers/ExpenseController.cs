@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -210,9 +211,19 @@ namespace BudgedManager.Controllers
         // GET: Expense/History
         public async Task<IActionResult> History()
         {
-            var expense = await _context.Expenses.ToListAsync();
-            
-            return View(expense);
+            var expense = _context.Expenses.Select(
+                group =>
+                    new HistoryDto
+                    {
+                        Category = _context.Categories.FirstOrDefault(c => c.Id == group.CategoryId).Name,
+                        Amount = group.Amount,
+                        Date = group.Date,
+                        Comment = group.Comment
+                    })
+                .OrderByDescending(a => a.Date)
+                .ToList();
+            ViewData["expenses"] = expense;
+            return View();
         }
 
         // POST: Expense/Delete/5
