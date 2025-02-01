@@ -64,6 +64,7 @@ namespace BudgedManager.Controllers
             }
             return View(subscription);
         }
+        
 
         // GET: Subscription/Edit/5
         public async Task<IActionResult> Edit(int? id)
