@@ -42,7 +42,15 @@ public class SubscriptionTimer
             var test = context.Subscriptions.Where(x => x.subscriptionStartDate <= DateTime.Now.Date);
             foreach (var subscription in test)
             {
-                Console.WriteLine(subscription.subscriptionStartDate);
+                subscription.subscriptionStartDate = DateTime.Now.Date.AddDays(subscription.subscriptionPaymentPeriod);
+                context.Subscriptions.Update(subscription);
+                Expense expense = new Expense
+                {
+                    Amount = subscription.subscriptionPrice,
+                    Date = subscription.subscriptionStartDate,
+                    Comment = subscription.subscriptionName + " - " + subscription.subscriptionDescription
+                };
+                context.Expenses.Add(expense);
             }
             Console.WriteLine("--");
 
