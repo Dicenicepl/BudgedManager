@@ -8,8 +8,6 @@ namespace BudgedManager.Services;
 
 public class SubscriptionTimer
 {
-    // private const long HourInMilliseconds = 3600000;
-    private const long HourInMilliseconds = 1000;
     private static System.Timers.Timer _timer;
     private readonly IServiceProvider _serviceProvider;
 
@@ -27,19 +25,30 @@ public class SubscriptionTimer
 
     private void SetTimer()
     {
-        _timer = new System.Timers.Timer(HourInMilliseconds);
-        _timer.Elapsed += CheckSubscriptionStartDate;
-        _timer.AutoReset = true;
+        
+        _timer = new System.Timers.Timer(GetNextSubscriptionTime());
+        _timer.Elapsed += ExecuteSubscription;
+    }
+
+    private double GetNextSubscriptionTime()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            var subscription = context.Subscriptions.FirstOrDefault(s => s.subscriptionStartDate > DateTime.Now);
+            var timeBetween = subscription.subscriptionStartDate - DateTime.Now;
+            return timeBetween.TotalMilliseconds;
+        }
         
     }
 
-    private void CheckSubscriptionStartDate(object sender, System.Timers.ElapsedEventArgs e)
+    private void ExecuteSubscription(object sender, System.Timers.ElapsedEventArgs e)
     {
         using (var scope = _serviceProvider.CreateScope())
         {
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            var test = context.Subscriptions.Where(x => x.subscriptionStartDate <= DateTime.Now.Date);
+            var test = context.Subscriptions.Where(x => x.subscriptionStartDate <= DateTime.Now.Date).ToList();
             foreach (var subscription in test)
             {
                 subscription.subscriptionStartDate = DateTime.Now.Date.AddDays(subscription.subscriptionPaymentPeriod);
@@ -51,10 +60,12 @@ public class SubscriptionTimer
                     Comment = subscription.subscriptionName + " - " + subscription.subscriptionDescription
                 };
                 context.Expenses.Add(expense);
+                context.SaveChanges();
             }
             Console.WriteLine("--");
 
         }
+        Start();
     }
     
     private void LogMessage(object sender, System.Timers.ElapsedEventArgs e)
