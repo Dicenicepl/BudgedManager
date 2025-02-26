@@ -27,6 +27,7 @@ public class SubscriptionTimer
     {
         _timer = new System.Timers.Timer(GetNextSubscriptionTime());
         _timer.Elapsed += ExecuteSubscription;
+        _timer.AutoReset = false;
     }
 
     private double GetNextSubscriptionTime()
@@ -34,13 +35,13 @@ public class SubscriptionTimer
         using (var scope = _serviceProvider.CreateScope())
         {
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            var subscription = context.Subscriptions.FirstOrDefault(s => s.subscriptionStartDate > DateTime.Now);
-            var timeBetween = subscription.subscriptionStartDate - DateTime.Now;
+            var subscription = context.Subscriptions.Where(s => s.subscriptionStartDate > DateTime.Now).OrderBy(s => s.subscriptionStartDate).First();
+            var timeBetween = subscription.subscriptionStartDate.Subtract(DateTime.Now);
             if (timeBetween.TotalMilliseconds > 0)
             {            
                 return timeBetween.TotalMilliseconds;
             }
-            return 20000;
+            return 200.0;
         }
         
     }
@@ -63,11 +64,12 @@ public class SubscriptionTimer
                     Comment = subscription.subscriptionName + " - " + subscription.subscriptionDescription
                 };
                 context.Expenses.Add(expense);
-                context.SaveChanges();
             }
             Console.WriteLine("--");
+            context.SaveChanges();
 
         }
+        
         Start();
     }
     
