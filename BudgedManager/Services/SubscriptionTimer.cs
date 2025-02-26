@@ -25,7 +25,6 @@ public class SubscriptionTimer
 
     private void SetTimer()
     {
-        
         _timer = new System.Timers.Timer(GetNextSubscriptionTime());
         _timer.Elapsed += ExecuteSubscription;
     }
@@ -37,7 +36,11 @@ public class SubscriptionTimer
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             var subscription = context.Subscriptions.FirstOrDefault(s => s.subscriptionStartDate > DateTime.Now);
             var timeBetween = subscription.subscriptionStartDate - DateTime.Now;
-            return timeBetween.TotalMilliseconds;
+            if (timeBetween.TotalMilliseconds > 0)
+            {            
+                return timeBetween.TotalMilliseconds;
+            }
+            return 20000;
         }
         
     }
