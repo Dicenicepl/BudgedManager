@@ -62,8 +62,6 @@ namespace BudgedManager.Controllers
         // GET: Expense/Summary/
         public async Task<IActionResult> Summary(DateTime? startDate, DateTime? endDate)
         {
-            
-            
             var categoryExpenses = _context.Expenses
                 .GroupBy(e => e.CategoryId)
                 .Select(group => new SummaryDto
