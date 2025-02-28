@@ -28,5 +28,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+Console.WriteLine("1 => Timer");
 app.Services.GetRequiredService<SubscriptionTimer>().Start();
+
 app.Run();

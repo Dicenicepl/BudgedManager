@@ -19,6 +19,7 @@ public class SubscriptionTimer
 
     public void Start()
     {
+        Console.WriteLine("Starting subscription timer");
         SetTimer();
         _timer.Start();
     }
@@ -34,55 +35,54 @@ public class SubscriptionTimer
     {
         using (var scope = _serviceProvider.CreateScope())
         {
-            var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            var today = DateTime.Now;
-            TimeSpan timeBetween;
-            try
-            {
-                var subscription = context.Subscriptions.Where(s => s.subscriptionStartDate > today).OrderBy(s => s.subscriptionStartDate).First();
-                timeBetween = subscription.subscriptionStartDate.Subtract(today);
-                if (timeBetween.TotalMilliseconds > 0)
-                {            
-                    return timeBetween.TotalMilliseconds;
-                }
-            }
-            catch (InvalidOperationException e)
-            {
-                Console.WriteLine("Error method: 'GetNextSubscriptionTime': \n" + e + "\n--");
-            }
+        //     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        //     var today = DateTime.Now;
+        //     TimeSpan timeBetween;
+        //     try
+        //     {
+        //         var subscription = context.Subscriptions.Where(s => s.SubscriptionStartDate > today).OrderBy(s => s.SubscriptionStartDate).First();
+        //         timeBetween = subscription.SubscriptionStartDate.Subtract(today);
+        //         if (timeBetween.TotalMilliseconds > 0)
+        //         {            
+        //             return timeBetween.TotalMilliseconds;
+        //         }
+        //     }
+        //     catch (InvalidOperationException e)
+        //     {
+        //         Console.WriteLine("Error method: 'GetNextSubscriptionTime': \n" + e + "\n--");
+        //     }
             return 5000.0; //5s
         }
         
     }
 
-    private void ExecuteSubscription(object sender, System.Timers.ElapsedEventArgs e)
+    public void ExecuteSubscription(object? sender, System.Timers.ElapsedEventArgs? e)
     {
         using (var scope = _serviceProvider.CreateScope())
         {
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            var test = context.Subscriptions.Where(x => x.subscriptionStartDate <= DateTime.Now).ToList();
-            foreach (var subscription in test)
+            var subscriptions = context.Subscriptions.Where(x => x.SubscriptionStartDate <= DateTime.Now).ToList();
+            foreach (var subscription in subscriptions)
             {
                 Expense expense = new Expense
                 {
-                    Amount = subscription.subscriptionPrice,
-                    Date = subscription.subscriptionStartDate,
-                    Comment = subscription.subscriptionName + " - " + subscription.subscriptionDescription
+                    Amount = subscription.SubscriptionPrice,
+                    Date = subscription.SubscriptionStartDate,
+                    Comment = subscription.SubscriptionName + " - " + subscription.SubscriptionDescription
                 };
                 context.Expenses.Add(expense);
                 
-                subscription.subscriptionStartDate = DateTime.Now.AddDays(subscription.subscriptionPaymentPeriod);
+                subscription.SubscriptionStartDate = DateTime.Now.AddDays(subscription.SubscriptionPaymentPeriod);
                 context.Subscriptions.Update(subscription);
             }
             context.SaveChanges();
 
         }
-        
         Start();
     }
     
-    private void LogMessage(object sender, System.Timers.ElapsedEventArgs e)
+    private void LogMessage(System.Timers.ElapsedEventArgs e)
     {
         Console.WriteLine("Logging message, TIME: {0:HH:mm:ss.ffff}", e.SignalTime);
     }

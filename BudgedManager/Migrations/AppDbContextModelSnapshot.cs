@@ -94,30 +94,30 @@ namespace BudgedManager.Migrations
 
             modelBuilder.Entity("BudgedManager.Models.Entity.Subscription", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("subscriptionDescription")
+                    b.Property<string>("SubscriptionDescription")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("subscriptionName")
+                    b.Property<string>("SubscriptionName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("subscriptionPaymentPeriod")
+                    b.Property<int>("SubscriptionPaymentPeriod")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("subscriptionPrice")
+                    b.Property<decimal>("SubscriptionPrice")
                         .HasColumnType("numeric");
 
-                    b.Property<DateTime>("subscriptionStartDate")
+                    b.Property<DateTime>("SubscriptionStartDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Subscriptions");
                 });

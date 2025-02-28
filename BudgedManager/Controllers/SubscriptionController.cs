@@ -34,7 +34,7 @@ namespace BudgedManager.Controllers
             }
 
             var subscription = await _context.Subscriptions
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (subscription == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace BudgedManager.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,subscriptionName,subscriptionDescription,subscriptionStartDate,subscriptionPaymentPeriod,subscriptionPrice")] Subscription subscription)
+        public async Task<IActionResult> Create([Bind("Id,SubscriptionName,SubscriptionDescription,SubscriptionStartDate,SubscriptionPaymentPeriod,SubscriptionPrice")] Subscription subscription)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +89,7 @@ namespace BudgedManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id,subscriptionName,subscriptionDescription,subscriptionStartDate,subscriptionPaymentPeriod,subsriptionPrice")] Subscription subscription)
         {
-            if (id != subscription.id)
+            if (id != subscription.Id)
             {
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace BudgedManager.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SubscriptionExists(subscription.id))
+                    if (!SubscriptionExists(subscription.Id))
                     {
                         return NotFound();
                     }
@@ -126,7 +126,7 @@ namespace BudgedManager.Controllers
             }
 
             var subscription = await _context.Subscriptions
-                .FirstOrDefaultAsync(m => m.id == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (subscription == null)
             {
                 return NotFound();
@@ -152,7 +152,7 @@ namespace BudgedManager.Controllers
 
         private bool SubscriptionExists(int id)
         {
-            return _context.Subscriptions.Any(e => e.id == id);
+            return _context.Subscriptions.Any(e => e.Id == id);
         }
     }
 }
