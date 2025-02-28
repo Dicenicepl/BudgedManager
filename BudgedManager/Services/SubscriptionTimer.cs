@@ -35,13 +35,22 @@ public class SubscriptionTimer
         using (var scope = _serviceProvider.CreateScope())
         {
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            var subscription = context.Subscriptions.Where(s => s.subscriptionStartDate > DateTime.Now).OrderBy(s => s.subscriptionStartDate).First();
-            var timeBetween = subscription.subscriptionStartDate.Subtract(DateTime.Now);
-            if (timeBetween.TotalMilliseconds > 0)
-            {            
-                return timeBetween.TotalMilliseconds;
+            var today = DateTime.Now;
+            TimeSpan timeBetween;
+            try
+            {
+                var subscription = context.Subscriptions.Where(s => s.subscriptionStartDate > today).OrderBy(s => s.subscriptionStartDate).First();
+                timeBetween = subscription.subscriptionStartDate.Subtract(today);
+                if (timeBetween.TotalMilliseconds > 0)
+                {            
+                    return timeBetween.TotalMilliseconds;
+                }
             }
-            return 200.0;
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("Error method: 'GetNextSubscriptionTime': \n" + e + "\n--");
+            }
+            return 5000.0; //5s
         }
         
     }
@@ -52,11 +61,9 @@ public class SubscriptionTimer
         {
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            var test = context.Subscriptions.Where(x => x.subscriptionStartDate <= DateTime.Now.Date).ToList();
+            var test = context.Subscriptions.Where(x => x.subscriptionStartDate <= DateTime.Now).ToList();
             foreach (var subscription in test)
             {
-                subscription.subscriptionStartDate = DateTime.Now.Date.AddDays(subscription.subscriptionPaymentPeriod);
-                context.Subscriptions.Update(subscription);
                 Expense expense = new Expense
                 {
                     Amount = subscription.subscriptionPrice,
@@ -64,8 +71,10 @@ public class SubscriptionTimer
                     Comment = subscription.subscriptionName + " - " + subscription.subscriptionDescription
                 };
                 context.Expenses.Add(expense);
+                
+                subscription.subscriptionStartDate = DateTime.Now.AddDays(subscription.subscriptionPaymentPeriod);
+                context.Subscriptions.Update(subscription);
             }
-            Console.WriteLine("--");
             context.SaveChanges();
 
         }
