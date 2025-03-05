@@ -1,4 +1,5 @@
-using BudgedManager.Models;using BudgedManager.Services;
+using BudgedManager.Models;
+using BudgedManager.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,9 +27,8 @@ app.UseRouting();
 
 app.UseAuthorization();
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-Console.WriteLine("1 => Timer");
+    "default",
+    "{controller=Home}/{action=Index}/{id?}");
 app.Services.GetRequiredService<SubscriptionTimer>().Start();
 
 app.Run();

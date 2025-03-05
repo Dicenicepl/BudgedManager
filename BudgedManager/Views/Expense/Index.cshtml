@@ -23,23 +23,24 @@
 </form>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                <a asp-action="Index" asp-route-orderBy="Amount">@Html.DisplayNameFor(model => model.Amount)</a>
-            </th>
-            <th>
-                <a asp-action="Index" asp-route-orderBy="Category">@Html.DisplayNameFor(model => model.Category)</a>
-            </th>
-            <th>
-                <a asp-action="Index" asp-route-orderBy="Date">@Html.DisplayNameFor(model => model.Date)</a>
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comment)
-            </th>
-        </tr>
+    <tr>
+        <th>
+            <a asp-action="Index" asp-route-orderBy="Amount">@Html.DisplayNameFor(model => model.Amount)</a>
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-orderBy="Category">@Html.DisplayNameFor(model => model.Category)</a>
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-orderBy="Date">@Html.DisplayNameFor(model => model.Date)</a>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Amount)
@@ -59,6 +60,6 @@
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
