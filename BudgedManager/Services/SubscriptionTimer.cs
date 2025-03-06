@@ -43,12 +43,11 @@ public class SubscriptionTimer
         {
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             var today = DateTime.Now;
-            TimeSpan timeBetween;
             try
             {
                 var subscription = context.Subscriptions.Where(s => s.SubscriptionStartDate > today)
                     .OrderBy(s => s.SubscriptionStartDate).First();
-                timeBetween = subscription.SubscriptionStartDate.Subtract(today);
+                var timeBetween = subscription.SubscriptionStartDate.Subtract(today);
                 if (timeBetween.TotalMilliseconds > 0) return timeBetween.TotalMilliseconds;
             }
             catch (InvalidOperationException e)
