@@ -1,0 +1,23 @@
+﻿@model List<BudgedManager.Models.Entity.Expense>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+
+
+<form asp-action="Index">
+    <input type="radio" id="year" name="period" value="YEAR">
+    <label for="year">Year</label>
+    
+    <input type="radio" id="quarter" name="period" value="QUARTER">
+    <label for="quarter">Quarter</label>
+    
+    <input type="radio" id="month" name="period" value="month">
+    <label for="month">month</label>
+    
+    
+    <input type="submit" value="Create">
+    </form>
