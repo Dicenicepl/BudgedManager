@@ -1,4 +1,5 @@
 ﻿using BudgedManager.Models;
+using BudgedManager.Models.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,16 +13,8 @@ public class ReportController : Controller
     {
         _context = context;
     }
- 
-    // GET
-    public IActionResult Index()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Index(string? period)
+    
+    public async Task<IActionResult> Index(string? period)
     {
         DateTime date = DateTime.Now;
         switch (period)
@@ -37,7 +30,12 @@ public class ReportController : Controller
                 break;
         }
 
-        var records = _context.Expenses.Where(x => x.Date > date).ToList();
+        // var records = await _context.Expenses.Where(x => x.Date > date).ToListAsync();
+        var records = _context.Expenses
+            .Include(e => e.Category)
+            .Where(e => e.Date >= date)
+            .ToList();
         return View(records);
     }
+    
 }
