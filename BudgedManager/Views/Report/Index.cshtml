@@ -8,19 +8,24 @@
 <h2>title</h2>
 
 
-<form asp-action="Index">
-    <input type="radio" id="year" name="period" value="year">
-    <label for="year">year</label>
+<form asp-action="Index" method="get">
+    <input type="radio" id="year" name="period" value="year" onchange="this.form.submit()"
+           @(ViewBag.SelectedPeriod == "year" ? "checked" : "")>
+    <label for="year">Year</label>
 
-    <input type="radio" id="quarter" name="period" value="quarter">
-    <label for="quarter">quarter</label>
+    <input type="radio" id="quarter" name="period" value="quarter" onchange="this.form.submit()"
+           @(ViewBag.SelectedPeriod == "quarter" ? "checked" : "")>
+    <label for="quarter">Quarter</label>
 
-    <input type="radio" id="month" name="period" value="month">
-    <label for="month">month</label>
+    <input type="radio" id="month" name="period" value="month" onchange="this.form.submit()"
+           @(ViewBag.SelectedPeriod == "month" ? "checked" : "")>
+    <label for="month">Month</label>
 
 
-    <input type="submit" value="Create">
+
+    <button type="submit" name="print" value="Wyświetl">Drukuj</button>
 </form>
+
 
 <table class="table">
     <thead>

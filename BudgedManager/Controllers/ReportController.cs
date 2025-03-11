@@ -1,5 +1,6 @@
 ﻿using BudgedManager.Models;
 using BudgedManager.Models.Entity;
+using BudgedManager.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,8 +14,8 @@ public class ReportController : Controller
     {
         _context = context;
     }
-    
-    public async Task<IActionResult> Index(string? period)
+    //GET 
+    public async Task<IActionResult> Index(string? period, string? print)
     {
         DateTime date = DateTime.Now;
         switch (period)
@@ -29,13 +30,19 @@ public class ReportController : Controller
                 date = date.AddMonths(-1);
                 break;
         }
-
+        ViewBag.SelectedPeriod = period;
+        
         // var records = await _context.Expenses.Where(x => x.Date > date).ToListAsync();
         var records = _context.Expenses
             .Include(e => e.Category)
             .Where(e => e.Date >= date)
             .ToList();
+        if (print != null && records.Count > 0)
+        {
+            new Printer().Print(null);
+        }
         return View(records);
     }
+
     
 }
