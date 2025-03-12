@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Printing;
+using BudgedManager.Models.Entity;
 
 namespace BudgedManager.Services;
 
@@ -7,12 +8,35 @@ public class Printer
 {
     private Font printFont;
     private StreamReader streamToPrint;
-    static string filePath;
+    static string filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\BudgedManager.txt";
+    
 
-
-    public void Print()
+    public void Print(List<Expense> records)
     {
-        Printing();
+        if (CreateFile(records))
+        {
+            Console.WriteLine("Printing to " + filePath);
+            Printing(filePath);
+        }else Console.WriteLine("Printing failed");
+        Console.WriteLine("Printing finished");
+    }
+
+    private bool CreateFile(List<Expense> records)
+    {
+        try
+        {
+            FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            StreamWriter sw = new StreamWriter(fs);
+            records.ForEach(r => sw.WriteLine(r.ToString()));
+            sw.Close();
+            fs.Close();
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return false;
+        }
     }
     private void pd_PrintPage(object sender, PrintPageEventArgs ev) 
     {
@@ -44,11 +68,12 @@ public class Printer
         else 
             ev.HasMorePages = false;
     }
-    public void Printing()
+    private void Printing(string url)
     {
         try 
         {
-            streamToPrint = new StreamReader ("URL");
+            
+            streamToPrint = new StreamReader (url);
             try 
             {
                 printFont = new Font("Arial", 10);

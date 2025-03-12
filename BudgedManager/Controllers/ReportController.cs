@@ -39,7 +39,7 @@ public class ReportController : Controller
             .ToList();
         if (print != null && records.Count > 0)
         {
-            new Printer().Print(null);
+            new Printer().Print(records);
         }
         return View(records);
     }
