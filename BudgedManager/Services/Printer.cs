@@ -18,6 +18,7 @@ public class Printer
             Console.WriteLine("Printing to " + filePath);
             Printing(filePath);
         }else Console.WriteLine("Printing failed");
+        
         Console.WriteLine("Printing finished");
     }
 

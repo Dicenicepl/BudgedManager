@@ -6,6 +6,12 @@
 
 <h1>Create</h1>
 
+    <script>
+        function dupa(){
+            alert(@ViewData["LimitAlert"])
+        }
+    </script>
+
 <h4>Expense</h4>
 <hr/>
 <div class="row">
@@ -33,7 +39,7 @@
                 <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary"/>
+                <input type="submit" value="Create" class="btn btn-primary" onclick="dupa()"/>
             </div>
         </form>
     </div>

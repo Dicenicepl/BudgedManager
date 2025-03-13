@@ -1,6 +1,7 @@
 using BudgedManager.Models;
 using BudgedManager.Models.Entity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace BudgedManager.Controllers;
@@ -35,6 +36,7 @@ public class LimitController : Controller
     // GET: Limit/Create
     public IActionResult Create()
     {
+        ViewData["Category"] = new SelectList(_context.Categories, "Id", "Name");
         return View();
     }
 

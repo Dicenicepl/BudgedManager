@@ -21,11 +21,7 @@ public class ExpenseController : Controller
         var expenses = await _context.Expenses.Include(
                 e => e.Category)
             .ToListAsync();
-        if (date != null)
-            /*
-             * OPTIONAL: Date.ToString("d") creates example: "11/12/2024"
-             */
-            expenses = new List<Expense>(expenses.Where(e => e.Date.Date == DateTime.Parse(date)));
+        if (date != null) expenses = new List<Expense>(expenses.Where(e => e.Date.Date == DateTime.Parse(date)));
         if (category != null) expenses = new List<Expense>(expenses.Where(s => s.Category.Name.Equals(category)));
         if (amount != null) expenses = new List<Expense>(expenses.Where(s => s.Amount.ToString() == amount));
         switch (orderBy)
@@ -103,6 +99,10 @@ public class ExpenseController : Controller
     {
         if (expense.CategoryId.Equals(null)) return BadRequest();
 
+        var limit = _context.Limit.FirstOrDefaultAsync(m => m.CategoryId == expense.CategoryId).Result;
+        
+        ViewData["LimitAlert"] = limit.LimitAlert;
+        
         if (ModelState.IsValid)
         {
             expense.Amount = decimal.Parse(string.Format("{0:0.00}", expense.Amount));
