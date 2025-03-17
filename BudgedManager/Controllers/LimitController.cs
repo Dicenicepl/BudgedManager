@@ -3,6 +3,7 @@ using BudgedManager.Models.Entity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 
 namespace BudgedManager.Controllers;
 
@@ -121,8 +122,17 @@ public class LimitController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [HttpGet]
+    public String LimitWarning(int? categoryId)
+    {
+        var limit = _context.Limit.FirstOrDefault(m => m.CategoryId == categoryId);
+        return limit.ToJson();
+    }
+    
     private bool LimitExists(int id)
     {
         return _context.Limit.Any(e => e.Id == id);
     }
+    
+    
 }

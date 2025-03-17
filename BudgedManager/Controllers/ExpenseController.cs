@@ -98,10 +98,6 @@ public class ExpenseController : Controller
     public async Task<IActionResult> Create([Bind("Id,Amount,CategoryId,Date,Comment")] Expense expense)
     {
         if (expense.CategoryId.Equals(null)) return BadRequest();
-
-        var limit = _context.Limit.FirstOrDefaultAsync(m => m.CategoryId == expense.CategoryId).Result;
-        
-        ViewData["LimitAlert"] = limit.LimitAlert;
         
         if (ModelState.IsValid)
         {

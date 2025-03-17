@@ -7,8 +7,29 @@
 <h1>Create</h1>
 
     <script>
-        function dupa(){
-            alert(@ViewData["LimitAlert"])
+        async function GetLimitClass(){
+            let id = document.getElementById("formito");
+            
+            const response = await fetch("http://localhost:5062/Limit/LimitWarning?categoryId=" + id.value,{
+                method: "GET",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+            })
+
+            const data = await response.json();
+            
+            let limitWarning, limitAlert
+            
+            limitWarning = data.LimitWarning;
+            limitAlert = data.LimitAlert;
+            
+            const userInput = document.getElementById("userInput").value
+            
+            if (limitWarning > userInput){
+                alert("PONAD " + limitWarning)
+            }
+            console.log("DONE" + " LIMIT_ALERT:" + limitAlert + " LIMIT_WARNING:" + limitWarning + " USER_INPUT:" + userInput)
         }
     </script>
 
@@ -20,7 +41,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control"/>
+                <input asp-for="Amount" class="form-control" id="userInput"/>
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -30,7 +51,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewData["Category"], new { @class = "form-control" })
+                @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewData["Category"], new { @class = "form-control", @id = "formito"})
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,7 +60,8 @@
                 <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" onclick="dupa()"/>
+                <input type="submit" value="Create" class="btn btn-primary" onclick="GetLimitClass()"/>
+                <input type="button" onclick="GetLimitClass()">
             </div>
         </form>
     </div>
