@@ -8,7 +8,7 @@
 
     <script>
         async function GetLimitClass(){
-            let id = document.getElementById("formito");
+            let id = document.getElementById("Category-input");
             
             const response = await fetch("http://localhost:5062/Limit/LimitWarning?categoryId=" + id.value,{
                 method: "GET",
@@ -29,7 +29,10 @@
             if (limitWarning > userInput){
                 alert("PONAD " + limitWarning)
             }
-            console.log("DONE" + " LIMIT_ALERT:" + limitAlert + " LIMIT_WARNING:" + limitWarning + " USER_INPUT:" + userInput)
+        }
+        function SetDefaultDate(){
+            const datetime = new Date(Date.now())
+            document.getElementById("Date-input").value = datetime.toISOString().substring(0, 16) //change when it will be 10000 year ;>
         }
     </script>
 
@@ -46,12 +49,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control"/>
+                <input asp-for="Date" class="form-control" id="Date-input"/>
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewData["Category"], new { @class = "form-control", @id = "formito"})
+                @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewData["Category"], new { @class = "form-control", @id = "Category-input"})
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -61,7 +64,7 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" onclick="GetLimitClass()"/>
-                <input type="button" onclick="GetLimitClass()">
+                <input type="button" onclick="SetDefaultDate()">
             </div>
         </form>
     </div>
