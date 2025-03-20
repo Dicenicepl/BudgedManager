@@ -11,6 +11,8 @@ public class Expense
     public int CategoryId { get; set; }
     public Category? Category { get; set; }
     public DateTime Date { get; set; }
+    
+    [StringLength(255)]
     public string? Comment { get; set; }
     
     public override string ToString()
