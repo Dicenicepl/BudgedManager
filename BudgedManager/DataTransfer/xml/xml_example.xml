@@ -1,0 +1,8 @@
+﻿<expense>
+    <id>1</id>
+    <amount>12.23</amount>
+    <CategoryId>1</CategoryId>
+    <Category>null</Category>
+    <Date>2012-04-23T18:25:43.511Z</Date>
+    <Comment>Xml example</Comment>
+</expense>
