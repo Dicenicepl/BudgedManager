@@ -1,8 +1,18 @@
-﻿{
-  "id": 1,
-  "Amount": 12.23,
-  "CategoryId": 1,
-  "Category": null,
-  "Date":"2012-04-23T18:25:43.511Z",
-  "Comment": "Json import test"
-}
+﻿[
+  {
+    "id": 1,
+    "Amount": 12.23,
+    "CategoryId": 1,
+    "Category": null,
+    "Date":"2012-04-23T18:25:43.511Z",
+    "Comment": "Json import test"
+  },
+  {
+    "id": 2,
+    "Amount": 12.23,
+    "CategoryId": 1,
+    "Category": null,
+    "Date":"2012-04-23T18:25:43.511Z",
+    "Comment": "Json import test"
+  }
+]
