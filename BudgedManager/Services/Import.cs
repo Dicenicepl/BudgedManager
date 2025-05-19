@@ -1,4 +1,5 @@
-﻿using Humanizer;
+﻿using BudgedManager.Models.Entity;
+using Humanizer;
 
 namespace BudgedManager.Services;
 
@@ -24,15 +25,27 @@ public class Import
 
     private void JsonFormat()
     {
-        var test = File.ReadAllLines(_path);
-        foreach (var VARIABLE in test)
+        string test = "";
+        foreach (var VARIABLE in File.ReadAllLines(_path))
         {
-            if (VARIABLE.IndexOf(':') > 0)
+            Expense expense = new Expense();
+            for (int i = 0; i < 6; i++)
             {
-                Console.WriteLine(VARIABLE.Substring(VARIABLE.IndexOf(':') + 2).Replace(",", ""));
+                test += VARIABLE.Substring(VARIABLE.IndexOf(':') + 2).Replace(",", "");
+                switch (i)
+                {
+                    case 0: expense.Id = int.Parse(test); break;
+                    case 1: expense.Amount = int.Parse(test); break;
+                    case 2: expense.CategoryId = int.Parse(test); break;
+                    case 3: expense.Category = null; break;
+                    case 4: expense.Date = DateTime.Parse(test); break;
+                    case 5: expense.Comment = test; break;
+                }
+                Console.WriteLine(expense.ToString());
             }
             
         }
+        Console.WriteLine(test);
     }
     private void TxtFormat()
     {
