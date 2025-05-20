@@ -9,10 +9,11 @@ namespace BudgedManager.Controllers;
 public class ExpenseController : Controller
 {
     private readonly AppDbContext _context;
-
+    LimitController _limitController;
     public ExpenseController(AppDbContext context)
     {
         _context = context;
+        _limitController = new LimitController(_context);
     }
 
     // GET: Expense
@@ -98,6 +99,11 @@ public class ExpenseController : Controller
     public async Task<IActionResult> Create([Bind("Id,Amount,CategoryId,Date,Comment")] Expense expense)
     {
         if (expense.CategoryId.Equals(null)) return BadRequest();
+        
+        if (!_limitController.IsLimitIsBigger(expense.CategoryId, expense.Amount))
+        {
+            return BadRequest();
+        }
         
         if (ModelState.IsValid)
         {
