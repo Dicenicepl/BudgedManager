@@ -121,6 +121,19 @@ public class LimitController : Controller
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
+    
+    // Function created for checking if new Expense is in limits
+    public bool IsLimitIsBigger(int categoryId, decimal amount)
+    {
+        var limit = _context.Limit.FirstOrDefault(c => c.CategoryId == categoryId);
+        
+        if (limit == null)
+        {
+            return true;
+        }
+        
+        return limit.LimitWarning > amount || limit.LimitAlert > amount;
+    }
 
     [HttpGet]
     public String LimitWarning(int? categoryId)
@@ -133,6 +146,9 @@ public class LimitController : Controller
     {
         return _context.Limit.Any(e => e.Id == id);
     }
+
+  
+    
     
     
 }
