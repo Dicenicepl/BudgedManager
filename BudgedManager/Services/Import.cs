@@ -47,7 +47,7 @@ public class Import
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine("Error while importing data from json, LINE 36 returned:" + e);
             throw;
         }
     }
