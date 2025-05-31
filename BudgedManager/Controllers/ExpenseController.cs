@@ -94,7 +94,7 @@ public class ExpenseController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Id,Amount,CategoryId,Date,Comment")] Expense expense)
     {
-        if (expense.CategoryId.Equals(null)) return BadRequest();
+        if (expense.CategoryId == null) return BadRequest();
         
         if (!_limitController.IsLimitIsBigger(expense.CategoryId, expense.Amount))
         {
@@ -103,7 +103,7 @@ public class ExpenseController : Controller
         
         if (ModelState.IsValid)
         {
-            expense.Amount = decimal.Parse(string.Format("{0:0.00}", expense.Amount));
+            expense.Amount = Math.Round(expense.Amount, 2);
             _context.Add(expense);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
