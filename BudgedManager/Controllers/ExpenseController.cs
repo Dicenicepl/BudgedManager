@@ -9,7 +9,7 @@ namespace BudgedManager.Controllers;
 public class ExpenseController : Controller
 {
     private readonly AppDbContext _context;
-    LimitController _limitController;
+    private readonly LimitController _limitController;
     public ExpenseController(AppDbContext context)
     {
         _context = context;
@@ -19,24 +19,20 @@ public class ExpenseController : Controller
     // GET: Expense
     public async Task<IActionResult> Index(string? orderBy, string? date, string? category, string? amount)
     {
-        var expenses = await _context.Expenses.Include(
-                e => e.Category)
-            .ToListAsync();
-        if (date != null) expenses = new List<Expense>(expenses.Where(e => e.Date.Date == DateTime.Parse(date)));
-        if (category != null) expenses = new List<Expense>(expenses.Where(s => s.Category.Name.Equals(category)));
-        if (amount != null) expenses = new List<Expense>(expenses.Where(s => s.Amount.ToString() == amount));
+        var query = _context.Expenses.Include(e => e.Category).AsQueryable();
+
+        if (!string.IsNullOrEmpty(date)) query = query.Where(e => e.Date.Date == DateTime.Parse(date));
+        if (!string.IsNullOrEmpty(category)) query = query.Where(e => e.Category.Name == category);
+        if (!string.IsNullOrEmpty(amount)) query = query.Where(e => e.Amount.ToString() == amount);
+
         switch (orderBy)
         {
-            case "Amount":
-                expenses = new List<Expense>(expenses.OrderBy(e => e.Amount));
-                break;
-            case "Category":
-                expenses = new List<Expense>(expenses.OrderBy(e => e.Category.Name));
-                break;
-            case "Date":
-                expenses = new List<Expense>(expenses.OrderBy(e => e.Date));
-                break;
+            case "Amount": query = query.OrderBy(e => e.Amount); break;
+            case "Category": query = query.OrderBy(e => e.Category.Name); break;
+            case "Date": query = query.OrderBy(e => e.Date); break;
         }
+
+        var expenses = await query.ToListAsync();
 
         return View(expenses);
     }
