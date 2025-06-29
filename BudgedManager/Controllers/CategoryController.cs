@@ -12,14 +12,16 @@ public class CategoryController : Controller
     public CategoryController(AppDbContext context)
     {
         _context = context;
+       
     }
 
     // GET: Category
     public async Task<IActionResult> Index()
     {
+        if (!_context.Expenses.Any()) return View(await _context.Categories.ToListAsync());
+        
         var groupBy = _context.Expenses
-            .GroupBy(exp => exp.CategoryId)
-            .Select(group =>
+            .GroupBy(exp => exp.CategoryId).Select(group =>
                 new
                 {
                     CategoryName = _context.Categories.FirstOrDefault(category => category.Id == group.Key).Name,
@@ -30,6 +32,7 @@ public class CategoryController : Controller
         ViewData["CategoryName"] = groupBy.CategoryName;
         ViewData["Count"] = groupBy.Count;
         return View(await _context.Categories.ToListAsync());
+            
     }
 
     // GET: Category/Details/5
@@ -132,8 +135,11 @@ public class CategoryController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+  
+    
     private bool CategoryExists(int id)
     {
         return _context.Categories.Any(e => e.Id == id);
     }
+    
 }

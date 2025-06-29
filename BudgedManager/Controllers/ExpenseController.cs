@@ -39,31 +39,28 @@ public class ExpenseController : Controller
 
 
     // GET: Expense/Summary/
+    
+    //todo repair errors when there is no Expenses in database
     public async Task<IActionResult> Summary(DateTime? startDate, DateTime? endDate)
     {
         var categoryExpenses = _context.Expenses
             .GroupBy(e => e.CategoryId)
             .Select(group => new SummaryDto
             {
-                CategoryId = group.Key,
+                CategoryId = (int)group.Key,
                 CategoryName = group.First().Category.Name,
                 Score = (float)Math.Round(group.Sum(e => e.Amount))
             }).ToList();
 
         var countRecords = await _context.Expenses.Select(e => e.Date.Date).Distinct().CountAsync();
-
         var totalExpenses = await _context.Expenses.SumAsync(e => e.Amount);
 
+      
         var averageDays = totalExpenses / countRecords;
-        // var averageWeeks = totalExpenses / (countRecords / 7);
-        // var averageMonths = totalExpenses / (countRecords / 30);
-
         ViewData["Sum"] = (float)Math.Round(totalExpenses, 2);
         ViewData["Highest"] = (float)Math.Round(categoryExpenses.Max(e => e.Score), 2);
         ViewData["categoryExpenses"] = categoryExpenses;
         ViewData["AverageDays"] = (float)Math.Round(averageDays, 2);
-        // ViewData["AverageWeeks"] = (float)Math.Round(averageWeeks,2) ;
-        // ViewData["AverageMonths"] = (float)Math.Round(averageMonths,2) ;
 
         return View();
     }
@@ -96,7 +93,7 @@ public class ExpenseController : Controller
     {
         if (expense.CategoryId == null) return BadRequest();
         
-        if (!_limitController.IsLimitIsBigger(expense.CategoryId, expense.Amount))
+        if (!_limitController.IsLimitIsBigger((int)expense.CategoryId, expense.Amount))
         {
             return BadRequest();
         }
