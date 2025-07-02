@@ -1,4 +1,5 @@
 using BudgedManager.Models;
+using BudgedManager.Models.Entity;
 using BudgedManager.Services;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddSingleton<SubscriptionTimer>();
 // builder.Logging.ClearProviders(); //Turned off logs
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var database = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    if (!database.Categories.Any(c => c.Id == 1))
+    {
+        database.Categories.Add(new Category() { Id = 1, Name = "None", Description = "Created for non categorised" });
+        database.SaveChanges();
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
