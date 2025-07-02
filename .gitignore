@@ -5,3 +5,4 @@ riderModule.iml
 /_ReSharper.Caches/
 .idea
 BudgedManager/appsettings.Development.json
+BudgedManager/bugs.txt
