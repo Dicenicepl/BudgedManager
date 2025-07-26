@@ -128,6 +128,7 @@ public class CategoryController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
+        //todo better security for default category, for now there is no guarantise for a empty slot on id = 1
         var category = await _context.Categories.FindAsync(id);
         if (category != null && id != 1) _context.Categories.Remove(category);
 
