@@ -72,7 +72,6 @@ public class Import
     private void XmlFormat()
     {
         var serializer = new XmlSerializer(typeof(ExpenseList));
-
         using var stream = new FileStream(_path, FileMode.Open);
         var expenseList = (ExpenseList)serializer.Deserialize(stream);
         

@@ -91,13 +91,15 @@ public class ExpenseController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Id,Amount,CategoryId,Date,Comment")] Expense expense)
     {
-        if (expense.CategoryId == null) return BadRequest();
+        if (expense.CategoryId == null) return BadRequest(); //mostly ignored scenario caused of Default "None" Category
         
-        if (!_limitController.IsLimitIsBigger((int)expense.CategoryId, expense.Amount))
-        {
-            return BadRequest();
-        }
         
+        // TODO - limitController checks if Amount is in range, if not he must send a warning not blocking a request.
+        // if (!_limitController.IsLimitIsBigger((int)expense.CategoryId, expense.Amount))
+        // {
+        //     return BadRequest();
+        // }
+
         if (ModelState.IsValid)
         {
             expense.Amount = Math.Round(expense.Amount, 2);
@@ -162,7 +164,7 @@ public class ExpenseController : Controller
     }
 
     // GET: Expense/History
-    public async Task<IActionResult> History()
+    public IActionResult History()
     {
         var expense = _context.Expenses.Select(
                 group =>
