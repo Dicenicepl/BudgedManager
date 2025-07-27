@@ -19,7 +19,7 @@
             })
 
             const data = await response.json();
-            
+    
             let limitWarning, limitAlert
             
             limitWarning = data.LimitWarning;
@@ -61,20 +61,21 @@
                 @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewData["Category"], new { @class = "form-control", @id = "Category-input"})
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
-            <div class="testing">
+            @* WARNING, FORM IS BLOCKING A SUBMIT, MOVE IT FROM THE PRIMARY FORM *@
+            @* <div class="testing">
                 <form method="post" action="http://localhost:5062/Category/Create/">
                     <input type="text" class="type">
                     <input type="text" class="type">
                     <button type="submit">Send</button>
                 </form>
-            </div>
+            </div> *@
             <div class="form-group">
                 <label asp-for="Comment" class="control-label"></label>
                 <input asp-for="Comment" class="form-control"/>
                 <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" onclick="GetLimitClass()"/>
+                <input type="submit" value="Create" class="btn btn-primary"/>
                 <input type="button" onclick="SetDefaultDate()">
             </div>
         </form>

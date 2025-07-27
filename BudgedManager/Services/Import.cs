@@ -1,8 +1,8 @@
-﻿using System.Text.Json;
-using BudgedManager.Controllers;
+﻿using System.IO.Pipelines;
+using System.Text.Json;
+using System.Xml.Serialization;
 using BudgedManager.Models;
 using BudgedManager.Models.Entity;
-using Humanizer;
 
 namespace BudgedManager.Services;
 
@@ -53,10 +53,34 @@ public class Import
     }
     private void TxtFormat()
     {
-        
+        // TODO - Create a temp category for Expenses or set them to default category
+        foreach (var textLine in File.ReadAllLines(_path))
+        {
+            var item = textLine.Split(';');
+
+            _db.Expenses.Add(new Expense
+            {
+                Amount = decimal.Parse(item[0]),
+                CategoryId = int.Parse(item[1]),
+                Date = DateTime.Parse(item[2]),
+                Comment = item[3]
+            }
+            );
+            _db.SaveChanges();
+        }
     }
     private void XmlFormat()
     {
+        var serializer = new XmlSerializer(typeof(ExpenseList));
+
+        using var stream = new FileStream(_path, FileMode.Open);
+        var expenseList = (ExpenseList)serializer.Deserialize(stream);
         
+        foreach (var item in expenseList.Items)
+        {
+            _db.Expenses.Add(item);
+        }
+
+        _db.SaveChanges();
     }
 }
