@@ -1,5 +1,33 @@
+<script>
+    function showInteraction(let option){
+        switch(option){
+            case "I":
+                document.getElementById("ImportInteraction").style.display = "block";
+                break;
+            case "E":
+                document.getElementById("ExportInteraction").style.display = "block";
+                break;
 
-<form action="http://localhost:5062/DataTransfer/Menu" method="post" enctype="multipart/form-data">
-    <input type="file" name="FormFile" id="FormFile">
-    <input type="submit">
-</form>
+        }
+    }
+</script>
+
+<div>
+    SelectOption
+    <input type="radio" name="Option" id="" onclick="showInteraction('I')">
+    <input type="radio" name="Option" id="">
+</div>
+
+<div id="ImportInteraction" style="display: none">
+    <form action="http://localhost:5062/DataTransfer/Menu" method="post" enctype="multipart/form-data">
+        <input type="file" name="FormFile" id="FormFile">
+        <input type="submit">
+    </form>
+</div>
+
+<div id="ExportInteraction" style="display: none">
+    <input type="radio" name="" id="">
+    <input type="radio" name="" id="">
+</div>
+
+

@@ -20,16 +20,20 @@ public class Import
         _path = path;
         switch (type)
         {
-            case "json": JsonFormat();
+            case "json":
+                JsonFormat();
                 break;
-            case "txt": TxtFormat();
+            case "txt":
+                TxtFormat();
                 break;
-            case "xml": XmlFormat();
+            case "xml":
+                XmlFormat();
                 break;
-            default: Console.Error.WriteLine("Unknown export type: " + type);
+            default:
+                Console.Error.WriteLine("Unknown export type: " + type);
                 break;
         }
-        
+
         Console.WriteLine("Import complete.");
     }
 
@@ -53,7 +57,6 @@ public class Import
     }
     private void TxtFormat()
     {
-        // TODO - Create a temp category for Expenses or set them to default category
         foreach (var textLine in File.ReadAllLines(_path))
         {
             var item = textLine.Split(';');
@@ -74,7 +77,10 @@ public class Import
         var serializer = new XmlSerializer(typeof(ExpenseList));
         using var stream = new FileStream(_path, FileMode.Open);
         var expenseList = (ExpenseList)serializer.Deserialize(stream);
-        
+        if (expenseList == null || expenseList.Items.Count == 0)
+        {
+            return;
+        }
         foreach (var item in expenseList.Items)
         {
             _db.Expenses.Add(item);
