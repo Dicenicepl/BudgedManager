@@ -15,13 +15,16 @@ public class DataTransferController : Controller
         return View();
     }
     [HttpPost]
-    public void Menu(IFormFile FormFile)
+    public void Import(IFormFile FormFile)
     {
-        using var File = new FileStream(FormFile.Name, FileMode.Create);
+        using var File = new FileStream(FormFile.FileName, FileMode.Create);
         FormFile.CopyTo(File);
         File.Close();
         import = new Import(_db);
-        import.Start("xml", File.Name);
-
+        import.Start(FormFile.ContentType.Remove(0,5), File.Name);
+    }
+    public void Export(string? jsonList)
+    {
+        
     }
 }
