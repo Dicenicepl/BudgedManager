@@ -1,33 +1,35 @@
 <script>
-    function showInteraction(let option){
-        switch(option){
-            case "I":
-                document.getElementById("ImportInteraction").style.display = "block";
-                break;
-            case "E":
-                document.getElementById("ExportInteraction").style.display = "block";
-                break;
 
-        }
-    }
 </script>
-
+<br>
 <div>
     SelectOption
-    <input type="radio" name="Option" id="" onclick="showInteraction('I')">
+    <input type="radio" name="Option" id="">
     <input type="radio" name="Option" id="">
 </div>
+<br>
 
-<div id="ImportInteraction" style="display: none">
-    <form action="http://localhost:5062/DataTransfer/Menu" method="post" enctype="multipart/form-data">
+<div id="ImportInteraction" style="">
+    <form action="http://localhost:5062/DataTransfer/Import" method="post" enctype="multipart/form-data">
         <input type="file" name="FormFile" id="FormFile">
         <input type="submit">
     </form>
 </div>
+<br>
 
-<div id="ExportInteraction" style="display: none">
+<div id="ExportInteraction" style="">
     <input type="radio" name="" id="">
     <input type="radio" name="" id="">
+</div>
+<div>
+    Expense List Example
+    <div style="background-color: gray;">
+        <form action="" method="post"></form>
+        <br>
+        Amount: {Amount}, Category: {Category}, Date: {Date}, Comment: {Comment} <br><br>
+        <input type="checkbox"> Amount: 12, Category: None, Date: 2025-07-26 15:05:00, Comment: Transfer <br>
+        <input type="checkbox"> Amount: 12, Category: None, Date: 2025-07-26 15:05:00, Comment: Transfer
+    </div>
 </div>
 
 
