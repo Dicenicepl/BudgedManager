@@ -21,7 +21,7 @@ public class Expense
 
     public override string ToString()
     {
-        return Id + ", " + Amount + ", " + CategoryId + ", " + Date + ", " + Comment;
+        return Amount + "; " + CategoryId + "; " + Date + "; " + Comment;
     }
 }
 [XmlRoot("Expenses")]
