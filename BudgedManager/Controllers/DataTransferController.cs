@@ -27,6 +27,6 @@ public class DataTransferController : Controller
     public void Export(string? jsonList)
     {
         export = new Export(_db);
-        export.Start("plain");
+        export.Start(jsonList);
     }
 }
