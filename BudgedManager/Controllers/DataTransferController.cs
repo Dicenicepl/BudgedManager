@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 public class DataTransferController : Controller
 {
     private Import import;
+    private Export export;
     private AppDbContext _db;
     public DataTransferController(AppDbContext db)
     {
@@ -21,10 +22,11 @@ public class DataTransferController : Controller
         FormFile.CopyTo(File);
         File.Close();
         import = new Import(_db);
-        import.Start(FormFile.ContentType.Remove(0,5), File.Name);
+        import.Start(FormFile.ContentType.Remove(0,FormFile.ContentType.IndexOf('/') + 1), File.Name);
     }
     public void Export(string? jsonList)
     {
-        
+        export = new Export(_db);
+        export.Start("plain");
     }
 }
