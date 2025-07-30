@@ -23,7 +23,7 @@ public class Import
             case "json":
                 JsonFormat();
                 break;
-            case "txt":
+            case "plain":
                 TxtFormat();
                 break;
             case "xml":
@@ -43,9 +43,11 @@ public class Import
         {
             string json = File.ReadAllText(_path);
             List<Expense> expenses = JsonSerializer.Deserialize<List<Expense>>(json);
+
             foreach (var VARIABLE in expenses)
             {
                 _db.Expenses.Add(VARIABLE);
+
             }
             _db.SaveChanges();
         }
