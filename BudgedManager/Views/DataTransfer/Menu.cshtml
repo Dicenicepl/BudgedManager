@@ -11,7 +11,7 @@
 
 <div id="ImportInteraction" style="">
     <form action="http://localhost:5062/DataTransfer/Import" method="post" enctype="multipart/form-data">
-        <input type="file" name="FormFile" id="FormFile">
+        <input type="file" name="FormFile" id="FormFile" required>
         <input type="submit">
     </form>
 </div>
@@ -24,7 +24,10 @@
 <div>
     Expense List Example
     <div style="background-color: gray;">
-        <form action="" method="post"></form>
+        <form action="http://localhost:5062/DataTransfer/Export" method="post">
+            <input type="text" name="jsonList" >
+            <input type="submit" value="Click">
+        </form>
         <br>
         Amount: {Amount}, Category: {Category}, Date: {Date}, Comment: {Comment} <br><br>
         <input type="checkbox"> Amount: 12, Category: None, Date: 2025-07-26 15:05:00, Comment: Transfer <br>
