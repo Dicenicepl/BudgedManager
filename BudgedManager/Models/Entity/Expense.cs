@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 
 namespace BudgedManager.Models.Entity;
@@ -6,13 +7,15 @@ namespace BudgedManager.Models.Entity;
 public class Expense
 {
     [XmlIgnore]
+    [JsonIgnore]
     public int Id { get; set; }
 
     [Range(0.01, Double.MaxValue)] public decimal Amount { get; set; }
 
     public int CategoryId { get; set; }
-    
+
     [XmlIgnore]
+    [JsonIgnore]
     public Category? Category { get; set; }
     public DateTime Date { get; set; }
 
