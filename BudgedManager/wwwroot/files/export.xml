@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Expenses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment>Import Test</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment>Import Test1</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment>Import Test4</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment>Import Test5</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment>Import Test6</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment>Import Test7</Comment>
+  </Expense>
+  <Expense>
+    <Amount>123.45</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-25T00:00:00</Date>
+    <Comment>Obiad w restauracji</Comment>
+  </Expense>
+  <Expense>
+    <Amount>59.99</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-24T00:00:00</Date>
+    <Comment>Paliwo do samochodu</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-27T13:53:00</Date>
+    <Comment>asdas</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-08-26T15:05:00</Date>
+    <Comment>Import Test2</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-08-26T15:05:00</Date>
+    <Comment>Import Test3</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-27T13:53:00</Date>
+    <Comment> asdas</Comment>
+  </Expense>
+  <Expense>
+    <Amount>59.99</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-24T00:00:00</Date>
+    <Comment> Paliwo do samochodu </Comment>
+  </Expense>
+  <Expense>
+    <Amount>123.45</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-25T00:00:00</Date>
+    <Comment> Obiad w restauracji</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment> Import Test7</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment> Import Test6</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment> Import Test5</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment> Import Test4</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment> Import Test3</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment> Import Test2</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment> Import Test1</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-27T13:53:00</Date>
+    <Comment> asdas</Comment>
+  </Expense>
+  <Expense>
+    <Amount>59.99</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-24T00:00:00</Date>
+    <Comment> Paliwo do samochodu </Comment>
+  </Expense>
+  <Expense>
+    <Amount>123.45</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-25T00:00:00</Date>
+    <Comment> Obiad w restauracji</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment> Import Test7</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment> Import Test6</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment> Import Test5</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment> Import Test4</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment> Import Test3</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment> Import Test2</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment> Import Test1</Comment>
+  </Expense>
+  <Expense>
+    <Amount>12</Amount>
+    <CategoryId>1</CategoryId>
+    <Date>2025-07-26T15:05:00</Date>
+    <Comment> Import Test</Comment>
+  </Expense>
+</Expenses>
