@@ -1,5 +1,6 @@
 ﻿using System.Security;
 using System.Text.Json;
+using System.Xml.Serialization;
 using BudgedManager.Models;
 using BudgedManager.Models.Entity;
 
@@ -60,6 +61,7 @@ public class Export
             }
         ]
         */
+        // json serializer can write to stream 
         List<Expense> test = _db.Expenses.ToList();
         var json = JsonSerializer.Serialize(test);
         Console.WriteLine(json);
@@ -85,6 +87,15 @@ public class Export
     }
     private void XmlFormat()
     {
-        
+        List<Expense> expenses = _db.Expenses.ToList();
+        ExpenseList expenseList = new ExpenseList
+        {
+            Items = expenses
+        };
+
+        var serializer = new XmlSerializer(typeof(ExpenseList));
+
+        using var stream = new FileStream("export.xml", FileMode.Create);
+        serializer.Serialize(stream, expenseList);
     }
 }
