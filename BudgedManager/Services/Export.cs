@@ -63,8 +63,9 @@ public class Export
         */
         // json serializer can write to stream 
         List<Expense> test = _db.Expenses.ToList();
-        var json = JsonSerializer.Serialize(test);
-        Console.WriteLine(json);
+        FileStream file = new FileStream("export.json", FileMode.Create);
+        JsonSerializer.Serialize(file, test);
+        file.Close();
     }
 
     // Method works
@@ -76,7 +77,8 @@ public class Export
             123.45; 1; 25/07/2025 00:00:00; Obiad w restauracji
         */
         List<Expense> test = _db.Expenses.ToList();
-        using (StreamWriter writer = new StreamWriter("Test.txt", false))
+        FileStream file = new FileStream("export.txt", FileMode.Create);
+        using (StreamWriter writer = new StreamWriter(file))
         {
             foreach (var expense in test)
             {
@@ -84,6 +86,7 @@ public class Export
             }
             writer.Close();
         }
+        file.Close();
     }
     private void XmlFormat()
     {
@@ -97,5 +100,6 @@ public class Export
 
         using var stream = new FileStream("export.xml", FileMode.Create);
         serializer.Serialize(stream, expenseList);
+        stream.Close();
     }
 }
