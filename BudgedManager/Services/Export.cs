@@ -9,6 +9,7 @@ namespace BudgedManager.Services;
 public class Export
 {
     private AppDbContext _db;
+    private string exportFilesFolder = Environment.CurrentDirectory + "/wwwroot/files/";
 
     public Export(AppDbContext db)
     {
@@ -33,37 +34,10 @@ public class Export
                 break;
         }
     }
-    // testowanie na 3 obiekty typu Expense
     private void JsonFormat()
     {
-        /*
-        [
-            {
-                "Id": 1,
-                "Amount": 123.45,
-                "CategoryId": 2,
-                "Date": "2025-07-29T00:00:00",
-                "Comment": "Lunch w restauracji"
-            },
-            {
-                "Id": 2,
-                "Amount": 89.99,
-                "CategoryId": 1,
-                "Date": "2025-07-28T00:00:00",
-                "Comment": "Zakupy spożywcze"
-            },
-            {
-                "Id": 3,
-                "Amount": 300.00,
-                "CategoryId": 5,
-                "Date": "2025-07-27T00:00:00",
-                "Comment": "Rachunek za prąd"
-            }
-        ]
-        */
-        // json serializer can write to stream 
         List<Expense> test = _db.Expenses.ToList();
-        FileStream file = new FileStream("export.json", FileMode.Create);
+        FileStream file = new FileStream(exportFilesFolder + "export.json", FileMode.Create);
         JsonSerializer.Serialize(file, test);
         file.Close();
     }
@@ -71,13 +45,8 @@ public class Export
     // Method works
     private void TxtFormat()
     {
-        /*
-            12; 1; 27/07/2025 13:53:00; asdas
-            59.99; 1; 24/07/2025 00:00:00; Paliwo do samochodu 
-            123.45; 1; 25/07/2025 00:00:00; Obiad w restauracji
-        */
         List<Expense> test = _db.Expenses.ToList();
-        FileStream file = new FileStream("export.txt", FileMode.Create);
+        FileStream file = new FileStream(exportFilesFolder + "export.txt", FileMode.Create);
         using (StreamWriter writer = new StreamWriter(file))
         {
             foreach (var expense in test)
@@ -98,7 +67,7 @@ public class Export
 
         var serializer = new XmlSerializer(typeof(ExpenseList));
 
-        using var stream = new FileStream("export.xml", FileMode.Create);
+        using var stream = new FileStream(exportFilesFolder + "export.xml", FileMode.Create);
         serializer.Serialize(stream, expenseList);
         stream.Close();
     }
