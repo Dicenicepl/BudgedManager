@@ -19,7 +19,15 @@ public class LimitController : Controller
     // GET: Limit
     public async Task<IActionResult> Index()
     {
-        return View(await _context.Limit.ToListAsync());
+        var limits = _context.Limit.Select(limit => new Limit
+        {
+            Id = limit.Id,
+            CategoryId = limit.CategoryId,
+            Category = limit.Category,
+            LimitAlert = limit.LimitAlert,
+            LimitWarning = limit.LimitWarning
+        }).ToList();
+        return View(limits);
     }
 
     // GET: Limit/Details/5
