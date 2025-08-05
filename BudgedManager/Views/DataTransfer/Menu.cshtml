@@ -1,6 +1,4 @@
-<script>
 
-</script>
 <br>
 <div>
     SelectOption
@@ -18,16 +16,24 @@
 <br>
 
 <div id="ExportInteraction" style="">
-    <input type="radio" name="" id="">
-    <input type="radio" name="" id="">
+    <form id="ExportForm" method="post">
+        <input type="radio" name="type" id="json" value="json">
+        <label for="json">JSON</label>
+        <br>
+        <input type="radio" name="type" id="txt" value="txt">
+        <label for="txt">TXT</label>
+        <br>
+        <input type="radio" name="type" id="xml" value="xml">
+        <label for="xml">XML</label>
+        <br>
+        <button type="submit">Send</button>
+    </form>
+    <a id="ExportDownloadLink" href="#" download style="display: none;">Download</a>
+
 </div>
 <div>
     Expense List Example
     <div style="background-color: gray;">
-        <form action="http://localhost:5062/DataTransfer/Export" method="post">
-            <input type="text" name="jsonList" >
-            <input type="submit" value="Click">
-        </form>
         <br>
         Amount: {Amount}, Category: {Category}, Date: {Date}, Comment: {Comment} <br><br>
         <input type="checkbox"> Amount: 12, Category: None, Date: 2025-07-26 15:05:00, Comment: Transfer <br>
@@ -36,3 +42,22 @@
 </div>
 
 
+<script>
+    document.getElementById("ExportForm").addEventListener("submit", function(e){
+        e.preventDefault();
+
+        const form = new FormData(this);
+
+        fetch("/DataTransfer/Export",{
+            method: "POST",
+            body: form
+        }).then(response =>{
+            if(response.ok){
+                console.log("GOOOOOOOD:" + form.get("type"));
+                document.getElementById("ExportDownloadLink").href = "/files/export." + form.get("type");
+                document.getElementById("ExportDownloadLink").style.display = "block";
+            }
+        })
+    })
+
+</script>
