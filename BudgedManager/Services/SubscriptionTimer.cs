@@ -45,9 +45,9 @@ public class SubscriptionTimer
             var today = DateTime.Now;
             try
             {
-                var subscription = context.Subscriptions.Where(s => s.SubscriptionStartDate > today)
-                    .OrderBy(s => s.SubscriptionStartDate).First();
-                var timeBetween = subscription.SubscriptionStartDate.Subtract(today);
+                var subscription = context.Subscriptions.Where(s => s.StartDate > today)
+                    .OrderBy(s => s.StartDate).First();
+                var timeBetween = subscription.StartDate.Subtract(today);
                 if (timeBetween.TotalMilliseconds > 0) return timeBetween.TotalMilliseconds;
             }
             catch (InvalidOperationException e)
@@ -65,18 +65,18 @@ public class SubscriptionTimer
         {
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            var subscriptions = context.Subscriptions.Where(x => x.SubscriptionStartDate <= DateTime.Now).ToList();
+            var subscriptions = context.Subscriptions.Where(x => x.StartDate <= DateTime.Now).ToList();
             foreach (var subscription in subscriptions)
             {
                 var expense = new Expense
                 {
-                    Amount = subscription.SubscriptionPrice,
-                    Date = subscription.SubscriptionStartDate,
-                    Comment = subscription.SubscriptionName + " - " + subscription.SubscriptionDescription
+                    Amount = subscription.Price,
+                    Date = subscription.StartDate,
+                    Comment = subscription.Name + " - " + subscription.Description
                 };
                 context.Expenses.Add(expense);
 
-                subscription.SubscriptionStartDate = DateTime.Now.AddDays(subscription.SubscriptionPaymentPeriod);
+                subscription.StartDate = DateTime.Now.AddDays(subscription.PaymentPeriod);
                 context.Subscriptions.Update(subscription);
             }
 
