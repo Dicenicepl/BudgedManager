@@ -52,16 +52,20 @@ public class ExpenseController : Controller
                 Score = (float)Math.Round(group.Sum(e => e.Amount))
             }).ToList();
 
+        if (categoryExpenses.Count == 0)
+        {
+            return View();
+        }
         var countRecords = await _context.Expenses.Select(e => e.Date.Date).Distinct().CountAsync();
         var totalExpenses = await _context.Expenses.SumAsync(e => e.Amount);
 
-      
+        //test\/
         var averageDays = totalExpenses / countRecords;
         ViewData["Sum"] = (float)Math.Round(totalExpenses, 2);
         ViewData["Highest"] = (float)Math.Round(categoryExpenses.Max(e => e.Score), 2);
         ViewData["categoryExpenses"] = categoryExpenses;
         ViewData["AverageDays"] = (float)Math.Round(averageDays, 2);
-
+        //test^
         return View();
     }
 
