@@ -23,7 +23,7 @@ public class Export
             case "json":
                 JsonFormat();
                 break;
-            case "plain":
+            case "txt":
                 TxtFormat();
                 break;
             case "xml":
@@ -42,7 +42,6 @@ public class Export
         file.Close();
     }
 
-    // Method works
     private void TxtFormat()
     {
         List<Expense> test = _db.Expenses.ToList();
