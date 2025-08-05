@@ -29,8 +29,10 @@ public class CategoryController : Controller
                 })
             .OrderByDescending(x => x.Count)
             .FirstOrDefault();
+
         ViewData["CategoryName"] = groupBy.CategoryName;
         ViewData["Count"] = groupBy.Count;
+
         return View(await _context.Categories.ToListAsync());
             
     }
