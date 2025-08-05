@@ -9,9 +9,13 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<p>
-    Most used category: @ViewData["CategoryName"], count: @ViewData["Count"]
-</p>
+
+@if(@ViewData["Count"] != null){
+    <p>
+        Most used category: @ViewData["CategoryName"], count: @ViewData["Count"]
+    </p>
+}
+
 <table class="table">
     <thead>
     <tr>
