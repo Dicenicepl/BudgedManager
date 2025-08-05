@@ -24,9 +24,9 @@ public class DataTransferController : Controller
         import = new Import(_db);
         import.Start(FormFile.ContentType.Remove(0,FormFile.ContentType.IndexOf('/') + 1), File.Name);
     }
-    public void Export(string? jsonList)
+    public void Export(string? type)
     {
         export = new Export(_db);
-        export.Start(jsonList);
+        export.Start(type);
     }
 }
