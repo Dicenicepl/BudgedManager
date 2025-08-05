@@ -13,19 +13,19 @@
     <thead>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.SubscriptionName)
+            @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SubscriptionDescription)
+            @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SubscriptionStartDate)
+            @Html.DisplayNameFor(model => model.StartDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SubscriptionPaymentPeriod)
+            @Html.DisplayNameFor(model => model.PaymentPeriod)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SubscriptionPrice)
+            @Html.DisplayNameFor(model => model.Price)
         </th>
         <th></th>
     </tr>
@@ -35,19 +35,19 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.SubscriptionName)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SubscriptionDescription)
+                @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SubscriptionStartDate)
+                @Html.DisplayFor(modelItem => item.StartDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SubscriptionPaymentPeriod)
+                @Html.DisplayFor(modelItem => item.PaymentPeriod)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SubscriptionPrice)
+                @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -9,16 +9,16 @@ public class Subscription
     [Required(AllowEmptyStrings = false)]
     [MinLength(2)]
     [MaxLength(20)]
-    public string SubscriptionName { get; set; }
+    public string Name { get; set; }
 
     [Required(AllowEmptyStrings = true)]
     [MaxLength(240)]
-    public string SubscriptionDescription { get; set; }
+    public string Description { get; set; }
 
 
-    public DateTime SubscriptionStartDate { get; set; }
+    public DateTime StartDate { get; set; }
 
-    [Range(1, int.MaxValue)] public int SubscriptionPaymentPeriod { get; set; }
+    [Range(1, int.MaxValue)] public int PaymentPeriod { get; set; }
 
-    [Range(1, int.MaxValue)] public decimal SubscriptionPrice { get; set; }
+    [Range(1, int.MaxValue)] public decimal Price { get; set; }
 }
