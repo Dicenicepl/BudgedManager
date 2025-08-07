@@ -65,6 +65,9 @@ public class ExpenseController : Controller
         ViewData["Highest"] = (float)Math.Round(categoryExpenses.Max(e => e.Score), 2);
         ViewData["categoryExpenses"] = categoryExpenses;
         ViewData["AverageDays"] = (float)Math.Round(averageDays, 2);
+        ViewData["AverageWeeks"] = 100;
+        ViewData["AverageMonths"] = 100;
+
         //test^
         return View();
     }
