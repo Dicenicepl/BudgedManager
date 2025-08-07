@@ -154,9 +154,4 @@ public class LimitController : Controller
     {
         return _context.Limit.Any(e => e.Id == id);
     }
-
-  
-    
-    
-    
 }

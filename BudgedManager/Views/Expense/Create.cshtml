@@ -75,12 +75,9 @@
         
         
         const userInput = document.getElementById("userInput").value
-        console.log("1")
         if (limitWarning < userInput){
-            console.log("2")
             const confirmed = confirm("Przekroczono limit:" + limitWarning + ". Czy chcesz kontynuować")
             if(!confirmed){
-                console.log("3")
                 return;
             }
         }
