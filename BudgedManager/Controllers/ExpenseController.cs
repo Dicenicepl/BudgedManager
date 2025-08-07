@@ -98,14 +98,7 @@ public class ExpenseController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Id,Amount,CategoryId,Date,Comment")] Expense expense)
     {
-        if (expense.CategoryId == null) return BadRequest(); //mostly ignored scenario caused of Default "None" Category
         
-        
-        // TODO - limitController checks if Amount is in range, if not he must send a warning not blocking a request.
-        // if (!_limitController.IsLimitIsBigger((int)expense.CategoryId, expense.Amount))
-        // {
-        //     return BadRequest();
-        // }
 
         if (ModelState.IsValid)
         {
