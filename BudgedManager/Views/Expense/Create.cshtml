@@ -1,59 +1,27 @@
+
 @model BudgedManager.Models.Entity.Expense
 
 @{
     ViewData["Title"] = "Create";
 }
 
+
 <h1>Create</h1>
-
-@*todo function is for testing, for production create proper one*@
-<script>
-        async function GetLimitClass(){
-            let id = document.getElementById("Category-input");
-            
-            const response = await fetch("http://localhost:5062/Limit/LimitWarning?categoryId=" + id.value,{
-                method: "GET",
-                headers:{
-                    "Content-Type": "application/json"
-                },
-            })
-
-            const data = await response.json();
-    
-            let limitWarning, limitAlert
-            
-            limitWarning = data.LimitWarning;
-            limitAlert = data.LimitAlert;
-            
-            const userInput = document.getElementById("userInput").value
-            
-            if (limitWarning > userInput){
-                alert("PONAD " + limitWarning)
-            }
-        }
-        function SetDefaultDate(){
-            const datetime = new Date(Date.now())
-            document.getElementById("Date-input").value = datetime.toISOString().substring(0, 16) //change when it will be 10000 year ;>
-        }
-        function CreateFormForCategory(){
-
-        }
-    </script>
 
 <h4>Expense</h4>
 <hr/>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" id="CreateForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" id="userInput"/>
+                <input asp-for="Amount" class="form-control" id="userInput" required/>
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" id="Date-input"/>
+                <input asp-for="Date" class="form-control" id="Date-input" required/>
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -75,6 +43,7 @@
                 <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <input type="button" onclick="GetLimitClass()">
                 <input type="submit" value="Create" class="btn btn-primary"/>
                 <input type="button" onclick="SetDefaultDate()">
             </div>
@@ -85,4 +54,44 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+@*todo function is for testing, for production create proper one*@
+
+<script>
+    document.getElementById("CreateForm").addEventListener("submit", async function(e){
+        e.preventDefault();
+
+        let id = document.getElementById("Category-input");
+        const form = this;
+
+        const response = await fetch("http://localhost:5062/Limit/LimitWarning?categoryId=" + id.value,{
+            method: "GET"
+        })
+        const data = await response.json();
+        let limitWarning, limitAlert
+        
+        limitWarning = data.LimitWarning;
+        limitAlert = data.LimitAlert;
+        
+        
+        const userInput = document.getElementById("userInput").value
+        console.log("1")
+        if (limitWarning < userInput){
+            console.log("2")
+            const confirmed = confirm("Przekroczono limit:" + limitWarning + ". Czy chcesz kontynuować")
+            if(!confirmed){
+                console.log("3")
+                return;
+            }
+        }
+        form.submit();
+    });
+    function SetDefaultDate(){
+        const datetime = new Date(Date.now())
+        document.getElementById("Date-input").value = datetime.toISOString().substring(0, 16) //change when it will be 10000 year ;>
+    }
+    function CreateFormForCategory(){
+
+    }
+</script>
 
