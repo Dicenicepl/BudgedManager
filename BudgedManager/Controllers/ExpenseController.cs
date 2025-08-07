@@ -21,7 +21,18 @@ public class ExpenseController : Controller
     {
         var query = _context.Expenses.Include(e => e.Category).AsQueryable();
 
-        if (!string.IsNullOrEmpty(date)) query = query.Where(e => e.Date.Date == DateTime.Parse(date));
+        try
+        {
+            if (!string.IsNullOrEmpty(date))
+            {
+                var dateTime = DateTime.Parse(date);
+                query = query.Where(e => e.Date.Date == dateTime);
+            }
+        }
+        catch (FormatException e)
+        {
+            query = query.Where(e => e.Date.Date == DateTime.Today);
+        }
         if (!string.IsNullOrEmpty(category)) query = query.Where(e => e.Category.Name == category);
         if (!string.IsNullOrEmpty(amount)) query = query.Where(e => e.Amount.ToString() == amount);
 
@@ -127,7 +138,7 @@ public class ExpenseController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Amount,Category,Date,Comment")] Expense expense)
+    public async Task<IActionResult> Edit(int id, [Bind("Id,Amount,CategoryId,Date,Comment")] Expense expense)
     {
         if (id != expense.Id) return NotFound();
 
