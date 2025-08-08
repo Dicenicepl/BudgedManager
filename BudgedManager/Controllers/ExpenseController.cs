@@ -146,6 +146,7 @@ public class ExpenseController : Controller
         {
             try
             {
+                expense.Amount = Math.Round(expense.Amount, 2);
                 _context.Update(expense);
                 await _context.SaveChangesAsync();
             }
