@@ -20,5 +20,5 @@ public class Subscription
 
     [Range(1, int.MaxValue)] public int PaymentPeriod { get; set; }
 
-    [Range(1, int.MaxValue)] public decimal Price { get; set; }
+    [Range(0.01, double.MaxValue)] public decimal Price { get; set; }
 }
