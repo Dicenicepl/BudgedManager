@@ -39,6 +39,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     "default",
     "{controller=Home}/{action=Index}/{id?}");
+// method will not work correctly
 // app.Services.GetRequiredService<SubscriptionTimer>().Start();
 
 app.Run();

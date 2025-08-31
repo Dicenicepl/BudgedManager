@@ -19,8 +19,8 @@ public class SubscriptionTimer
 
     public void Start()
     {
-        SetTimer();
         _milliseconds = GetNextSubscriptionTime();
+        SetTimer();
         _timer.Start();
     }
 
@@ -83,9 +83,4 @@ public class SubscriptionTimer
             context.SaveChanges();
         }
     }
-
-    // private void LogMessage(System.Timers.ElapsedEventArgs e)
-    // {
-    //     Console.WriteLine("Logging message, TIME: {0:HH:mm:ss.ffff}", e.SignalTime);
-    // }
 }
