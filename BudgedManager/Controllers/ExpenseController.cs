@@ -51,37 +51,52 @@ public class ExpenseController : Controller
 
     // GET: Expense/Summary/
     
-    //todo repair errors when there is no Expenses in database
     public async Task<IActionResult> Summary(DateTime? startDate, DateTime? endDate)
     {
-        var categoryExpenses = _context.Expenses
-            .GroupBy(e => e.CategoryId)
+        var expensesQuery = _context.Expenses.Include(e => e.Category).AsQueryable();
+
+        if (startDate.HasValue)
+        {
+            expensesQuery = expensesQuery.Where(e => e.Date >= startDate.Value);
+        }
+
+        if (endDate.HasValue)
+        {
+            expensesQuery = expensesQuery.Where(e => e.Date <= endDate.Value);
+        }
+
+        var categoryExpenses = await expensesQuery
+            .GroupBy(e => new { e.CategoryId, e.Category.Name })
             .Select(group => new SummaryDto
             {
-                CategoryId = (int)group.Key,
-                CategoryName = group.First().Category.Name,
-                Score = (float)Math.Round(group.Sum(e => e.Amount))
-            }).ToList();
+                CategoryId = group.Key.CategoryId,
+                CategoryName = group.Key.Name,
+                Score = (float)Math.Round(group.Sum(e => e.Amount), 2)
+            })
+            .ToListAsync();
 
-        if (categoryExpenses.Count == 0)
+        if (!categoryExpenses.Any())
         {
             return View();
         }
-        var countRecords = await _context.Expenses.Select(e => e.Date.Date).Distinct().CountAsync();
-        var totalExpenses = await _context.Expenses.SumAsync(e => e.Amount);
 
-        //test\/
-        var averageDays = totalExpenses / countRecords;
+        var countRecords = await expensesQuery.Select(e => e.Date.Date).Distinct().CountAsync();
+        var totalExpenses = await expensesQuery.SumAsync(e => e.Amount);
+
+        var averageDays = totalExpenses / (countRecords > 0 ? countRecords : 1);
+        var averageWeeks = totalExpenses / (decimal)(countRecords > 0 ? countRecords / 7.0 : 1);
+        var averageMonths = totalExpenses / (decimal)(countRecords > 0 ? countRecords / 30.0 : 1);
+
         ViewData["Sum"] = (float)Math.Round(totalExpenses, 2);
         ViewData["Highest"] = (float)Math.Round(categoryExpenses.Max(e => e.Score), 2);
         ViewData["categoryExpenses"] = categoryExpenses;
         ViewData["AverageDays"] = (float)Math.Round(averageDays, 2);
-        ViewData["AverageWeeks"] = 100;
-        ViewData["AverageMonths"] = 100;
+        ViewData["AverageWeeks"] = (float)Math.Round(averageWeeks, 2);
+        ViewData["AverageMonths"] = (float)Math.Round(averageMonths, 2);
 
-        //test^
         return View();
     }
+
 
     // GET: Expense/Details/5
     public async Task<IActionResult> Details(int? id)
