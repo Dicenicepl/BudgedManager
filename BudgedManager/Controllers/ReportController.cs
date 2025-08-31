@@ -9,13 +9,13 @@ namespace BudgedManager.Controllers;
 public class ReportController : Controller
 {
     private readonly AppDbContext _context;
-    
+
     public ReportController(AppDbContext context)
     {
         _context = context;
     }
-    //GET 
-    public async Task<IActionResult> Index(string? period, string? print)
+
+    public IActionResult Index(string? period, string? download)
     {
         DateTime date = DateTime.Now;
         switch (period)
@@ -30,19 +30,20 @@ public class ReportController : Controller
                 date = date.AddMonths(-1);
                 break;
         }
+
         ViewBag.SelectedPeriod = period;
-        
-        // var records = await _context.Expenses.Where(x => x.Date > date).ToListAsync();
+
         var records = _context.Expenses
             .Include(e => e.Category)
             .Where(e => e.Date >= date)
             .ToList();
-        if (print != null && records.Count > 0)
+
+        if (!string.IsNullOrEmpty(download) && records.Any())
         {
-            new Printer().Print(records);
+            var fileBytes = new Printer().GenerateTextFile(records);
+            return File(fileBytes, "text/plain", "BudgedManager.txt");
         }
+
         return View(records);
     }
-
-    
 }

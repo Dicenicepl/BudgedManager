@@ -7,7 +7,6 @@
 
 <h2>title</h2>
 
-
 <form asp-action="Index" method="get">
     <input type="radio" id="year" name="period" value="year" onchange="this.form.submit()"
            @(ViewBag.SelectedPeriod == "year" ? "checked" : "")>
@@ -21,45 +20,27 @@
            @(ViewBag.SelectedPeriod == "month" ? "checked" : "")>
     <label for="month">Month</label>
 
-
-
-    <button type="submit" name="print" value="Wyświetl">Drukuj</button>
+    <button type="submit" name="download" value="txt">Pobierz TXT</button>
 </form>
-
 
 <table class="table">
     <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Amount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Comment)
-        </th>
-    </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Amount)</th>
+            <th>@Html.DisplayNameFor(model => model.Category)</th>
+            <th>@Html.DisplayNameFor(model => model.Date)</th>
+            <th>@Html.DisplayNameFor(model => model.Comment)</th>
+            <th>Akcje</th>
+        </tr>
     </thead>
     <tbody>
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
+            <td>@Html.DisplayFor(modelItem => item.Amount)</td>
+            <td>@Html.DisplayFor(modelItem => item.Category.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.Date)</td>
+            <td>@Html.DisplayFor(modelItem => item.Comment)</td>
             <td>
                 <a asp-controller="Expense" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-controller="Expense" asp-action="Details" asp-route-id="@item.Id">Details</a> |
@@ -69,5 +50,3 @@
     }
     </tbody>
 </table>
-
-
