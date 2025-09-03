@@ -10,7 +10,7 @@ public class Printer
         var sb = new StringBuilder();
         foreach (var record in records)
         {
-            sb.AppendLine(record.ToString()); // pamiętaj, aby Expense.ToString() było sensowne
+            sb.AppendLine(record.ToString());
         }
 
         return Encoding.UTF8.GetBytes(sb.ToString());

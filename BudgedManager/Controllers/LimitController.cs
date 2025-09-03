@@ -17,7 +17,7 @@ public class LimitController : Controller
     }
 
     // GET: Limit
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
     {
         var limits = _context.Limit.Select(limit => new Limit
         {
@@ -25,8 +25,12 @@ public class LimitController : Controller
             CategoryId = limit.CategoryId,
             Category = limit.Category,
             LimitAlert = limit.LimitAlert,
-            LimitWarning = limit.LimitWarning
+            LimitWarning = limit.LimitWarning,
+            Amount = limit.Amount,
+            ResetPeriod = limit.ResetPeriod,
+            PreviousReset = limit.PreviousReset
         }).ToList();
+        // var limits = _context.Limit.ToList();
         return View(limits);
     }
 
@@ -54,7 +58,7 @@ public class LimitController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,CategoryId,LimitWarning,LimitAlert")] Limit limit)
+    public async Task<IActionResult> Create([Bind("Id,CategoryId,LimitWarning,LimitAlert,ResetPeriod")] Limit limit)
     {
         if (ModelState.IsValid)
         {
@@ -81,7 +85,7 @@ public class LimitController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryId,LimitWarning,LimitAlert")] Limit limit)
+    public async Task<IActionResult> Edit(int id, [Bind("Id,CategoryId,LimitWarning,LimitAlert,ResetPeriod,PreviousReset")] Limit limit)
     {
         if (id != limit.Id) return NotFound();
 
@@ -143,13 +147,42 @@ public class LimitController : Controller
         return limit.LimitWarning > amount || limit.LimitAlert > amount;
     }
 
+    public void AddAmount(int CategoryId, decimal amount)
+    {
+        var limit = _context.Limit.FirstOrDefault(e => e.CategoryId == CategoryId);
+        if (limit == null)
+        {
+            return;
+        }
+        limit.Amount = amount;
+        _context.Limit.Update(limit);
+    }
+
+    //Used by js on client site
+    public void CheckReset(int RequestedCatId)
+    {
+        var limit = _context.Limit.FirstOrDefault(e => e.CategoryId == RequestedCatId);
+        if (limit == null)
+        {
+            return;
+        }
+        DateOnly resetDay = limit.PreviousReset.AddDays(limit.ResetPeriod);
+        if (resetDay < DateOnly.FromDateTime(DateTime.Today))
+        {
+            limit.Amount = 0;
+            limit.PreviousReset = resetDay;
+            _context.Update(limit);
+            Console.WriteLine("Reset process done");
+        }
+    }
+
     [HttpGet]
     public String LimitWarning(int? categoryId)
     {
         var limit = _context.Limit.FirstOrDefault(m => m.CategoryId == categoryId);
         return limit.ToJson();
     }
-    
+
     private bool LimitExists(int id)
     {
         return _context.Limit.Any(e => e.Id == id);

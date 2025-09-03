@@ -21,6 +21,15 @@
         <th>
             @Html.DisplayNameFor(model => model.LimitAlert)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ResetPeriod)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PreviousReset)
+        </th>
         <th></th>
     </tr>
     </thead>
@@ -36,6 +45,15 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LimitAlert)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResetPeriod)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PreviousReset)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

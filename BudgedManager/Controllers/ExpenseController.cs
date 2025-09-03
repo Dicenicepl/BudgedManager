@@ -124,12 +124,11 @@ public class ExpenseController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Id,Amount,CategoryId,Date,Comment")] Expense expense)
     {
-        
-
         if (ModelState.IsValid)
         {
             expense.Amount = Math.Round(expense.Amount, 2);
             _context.Add(expense);
+            _limitController.AddAmount(expense.CategoryId, expense.Amount);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
