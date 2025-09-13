@@ -58,11 +58,11 @@
 @*todo function is for testing, for production create proper one*@
 
 <script>
-    document.getElementById("CreateForm").addEventListener("submit", async function(e){
-        e.preventDefault();
+    document.getElementById("CreateForm").addEventListener("submit",async function(event){
+        event.preventDefault();
 
-        let id = document.getElementById("Category-input");
         const form = this;
+        const id = document.getElementById("Category-input");
 
         const response = await fetch("http://localhost:5062/Limit/LimitWarning?categoryId=" + id.value,{
             method: "GET"
@@ -70,15 +70,16 @@
         const data = await response.json();
         if(data == null){
             form.submit();
+            return;
         }
-        let limitWarning, limitAlert
-        
-        limitWarning = data.LimitWarning;
-        limitAlert = data.LimitAlert;
+
+        const limitWarning = data.LimitWarning;
+        const limitAlert = data.LimitAlert;
+        const amount = data.Amount;
         
         const userInput = document.getElementById("userInput").value
-        if (limitWarning < userInput){
-            const confirmed = confirm("Przekroczono limit:" + limitWarning + ". Czy chcesz kontynuować")
+        if (parseFloat(limitWarning) < parseFloat(userInput) + parseFloat(amount)){
+            const confirmed = confirm("Przekroczono limit: " + limitWarning + ". Czy chcesz kontynuować")
             if(!confirmed){
                 return;
             }

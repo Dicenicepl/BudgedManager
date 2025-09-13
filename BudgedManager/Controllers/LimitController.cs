@@ -62,6 +62,7 @@ public class LimitController : Controller
     {
         if (ModelState.IsValid)
         {
+            limit.PreviousReset = DateOnly.FromDateTime(DateTime.Today);
             _context.Add(limit);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -154,7 +155,7 @@ public class LimitController : Controller
         {
             return;
         }
-        limit.Amount = amount;
+        limit.Amount += amount;
         _context.Limit.Update(limit);
     }
 
