@@ -14,6 +14,7 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+    //ISSUE: create to any id, after that save to global variable and use it
     var database = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     if (!database.Categories.Any(c => c.Id == 1))
     {
